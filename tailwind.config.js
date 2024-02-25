@@ -37,6 +37,7 @@ module.exports = {
       orange: "#ff7849",
       green: "#13ce66",
       yellow: "#ffc82c",
+      indigo: "#240d80",
       "gray-50": "rgba(49, 49, 49, 0.6)",
       "gray-100": "#F8F9FA",
       "gray-200": "#E9ECEF",
@@ -58,7 +59,12 @@ module.exports = {
       "orange-800": "#FF6000",
       "orange-900": "#FF5400",
       "gray-light": "#d3dce6",
+      "indigo-200": "#240d80",
+      "indigo-300": "#560bad",
+      "indigo-400": "#480ca8",
+      "indigo-500": "#3a0ca3",
       black: "#000000",
+      dark: "#181818",
     },
     container: {
       padding: {
