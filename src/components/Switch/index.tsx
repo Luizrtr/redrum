@@ -17,7 +17,15 @@ const Switch: NextPage<IProps> = ({ label }) => {
       setTheme("light");
     }
   };
-  return <button onClick={changeTheme}> {label}</button>;
+  return (
+    <button
+      onClick={changeTheme}
+      className="text-primary-gray-900 dark:text-primary-gray-300"
+    >
+      {" "}
+      {label}
+    </button>
+  );
 };
 
 export default Switch;
