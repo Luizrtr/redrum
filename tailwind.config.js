@@ -64,6 +64,7 @@ module.exports = {
       "indigo-500": "#3a0ca3",
       black: "#000000",
       dark: "#181818",
+      light: "#FFFFFF",
     },
     container: {
       padding: {
