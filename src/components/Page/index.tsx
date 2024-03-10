@@ -32,40 +32,48 @@ const Page: NextPage = () => {
     }
   };
   return (
-    <div className="">
-      <div className="container mx-auto flex justify-between py-4 items-center">
-        <div className="flex flex-col gap-3">
-          <div>
-            <Label className="text-gray-600">Pages </Label>
-            <Label>/ Dashboard </Label>
+    <main className="flex">
+      <div className="w-2/5 md:w-1/4 h-screen px-4 py-6">
+        <div className="bg-gray-200 dark:bg-gray-900 rounded-lg h-full w-full px-4 py-6">
+          <div className="text-center">
+            <H2>LOGO</H2>
           </div>
-          <H2 className="font-bold">Dashboard</H2>
-        </div>
-        <div>LOGO</div>
-        <div className="flex gap-4 h-14 justify-center items-center">
-          <Menubar>
-            <MenubarMenu>
-              <MenubarTrigger className="p-0">
-                <Avatar className="cursor-pointer">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem>
-                  Profile <MenubarShortcut>⌘T</MenubarShortcut>
-                </MenubarItem>
-                <MenubarItem>Settings</MenubarItem>
-                <MenubarSeparator />
-                <MenubarItem>Log out</MenubarItem>
-              </MenubarContent>
-            </MenubarMenu>
-          </Menubar>
-          <Separator orientation="vertical" />
-          <Switch checked={check} onCheckedChange={changeTheme} />
         </div>
       </div>
-    </div>
+      <div className="min-h-screen w-full">
+        <div className="flex justify-between py-4 items-center px-24">
+          <div className="flex flex-col gap-3">
+            <div>
+              <Label className="text-gray-600">Pages </Label>
+              <Label>/ Dashboard </Label>
+            </div>
+            <H2 className="font-bold">Dashboard</H2>
+          </div>
+          <div className="flex gap-4 h-14 justify-center items-center">
+            <Menubar>
+              <MenubarMenu>
+                <MenubarTrigger className="p-0">
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </MenubarTrigger>
+                <MenubarContent>
+                  <MenubarItem>
+                    Profile <MenubarShortcut>⌘T</MenubarShortcut>
+                  </MenubarItem>
+                  <MenubarItem>Settings</MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem>Log out</MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
+            <Separator orientation="vertical" />
+            <Switch checked={check} onCheckedChange={changeTheme} />
+          </div>
+        </div>
+      </div>
+    </main>
   );
 };
 
