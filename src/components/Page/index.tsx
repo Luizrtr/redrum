@@ -12,17 +12,11 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "../ui/separator";
+import { Label } from "../ui/label";
+import { H2 } from "../Text/h2";
 
 const Page: NextPage = () => {
   const { theme, setTheme } = useTheme();
@@ -38,20 +32,15 @@ const Page: NextPage = () => {
     }
   };
   return (
-    <div className="border-b dark:border-gray-700 border-gray-400">
+    <div className="">
       <div className="container mx-auto flex justify-between py-4 items-center">
-        <Sheet key="left">
-          <SheetTrigger>Open</SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>Are you absolutely sure?</SheetTitle>
-              <SheetDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </SheetDescription>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
+        <div className="flex flex-col gap-3">
+          <div>
+            <Label className="text-gray-600">Pages </Label>
+            <Label>/ Dashboard </Label>
+          </div>
+          <H2 className="font-bold">Dashboard</H2>
+        </div>
         <div>LOGO</div>
         <div className="flex gap-4 h-14 justify-center items-center">
           <Menubar>
