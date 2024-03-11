@@ -1,4 +1,3 @@
-import Switch from "@/components/Switch";
 import Link from "next/link";
 import Page from "@/components/Page";
 

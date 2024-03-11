@@ -2,6 +2,10 @@
 import * as React from "react";
 import { NextPage } from "next";
 import { useTheme } from "next-themes";
+import { RxDashboard } from "react-icons/rx";
+import { FiTable } from "react-icons/fi";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdOutlineSettings } from "react-icons/md";
 
 import {
   Menubar,
@@ -12,11 +16,23 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "../ui/separator";
-import { Label } from "../ui/label";
-import { H2 } from "../Text/h2";
+import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
+import { H2 } from "@/components/Text/h2";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 const Page: NextPage = () => {
   const { theme, setTheme } = useTheme();
@@ -33,21 +49,86 @@ const Page: NextPage = () => {
   };
   return (
     <main className="flex">
-      <div className="w-2/5 md:w-1/4 h-screen px-4 py-6">
-        <div className="bg-gray-200 dark:bg-gray-900 rounded-lg h-full w-full px-4 py-6">
-          <div className="text-center">
+      <div className="w-2/5 md:w-1/5 h-screen px-4 py-6 hidden md:flex">
+        <div className="bg-gray-200 dark:bg-dark rounded-lg h-full w-full px-2 py-6">
+          <div className="text-center pb-8">
             <H2>LOGO</H2>
+          </div>
+          <Separator />
+          <div className="py-8 flex flex-col gap-2">
+            <Link
+              href="#"
+              className="flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+            >
+              <RxDashboard size={24} />
+              <Label className="text-md">Dashboard</Label>
+            </Link>
+            <Link
+              href="#"
+              className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+            >
+              <FiTable size={24} />
+              <Label className="text-md">Table</Label>
+            </Link>
+            <Link
+              href="#"
+              className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+            >
+              <MdOutlineSettings size={24} />
+              <Label className="text-md">Settings</Label>
+            </Link>
           </div>
         </div>
       </div>
       <div className="min-h-screen w-full">
-        <div className="flex justify-between py-4 items-center px-24">
-          <div className="flex flex-col gap-3">
+        <div className="flex justify-between py-4 items-center px-4 md:px-24">
+          <div className="hidden md:flex flex-col gap-3">
             <div>
               <Label className="text-gray-600">Pages </Label>
               <Label>/ Dashboard </Label>
             </div>
             <H2 className="font-bold">Dashboard</H2>
+          </div>
+          <div className="flex md:hidden flex-col gap-3">
+            <Drawer>
+              <DrawerTrigger>
+                <GiHamburgerMenu size={26} />
+              </DrawerTrigger>
+              <DrawerContent className="h-full">
+                <DrawerHeader className="pb-12">
+                  <DrawerTitle>LOGO</DrawerTitle>
+                </DrawerHeader>
+                <Separator />
+                <div className="py-8 flex flex-col gap-2 px-1">
+                  <Link
+                    href="#"
+                    className="flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                  >
+                    <RxDashboard size={26} />
+                    <Label className="text-md">Dashboard</Label>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                  >
+                    <FiTable size={26} />
+                    <Label className="text-md">Table</Label>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                  >
+                    <MdOutlineSettings size={26} />
+                    <Label className="text-md">Settings</Label>
+                  </Link>
+                </div>
+                <DrawerFooter>
+                  <DrawerClose>
+                    <Button variant="outline">Close</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
           </div>
           <div className="flex gap-4 h-14 justify-center items-center">
             <Menubar>

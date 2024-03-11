@@ -1,11 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
-import Switch from "@/components/Switch";
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { useTheme } from "next-themes";
 import * as React from "react";
 
 export default function Login() {
+  const { theme, setTheme } = useTheme();
+  const [check, setCheck] = React.useState(false);
+
+  const changeTheme = () => {
+    if (theme === "light") {
+      setTheme("dark");
+      setCheck(true);
+    } else {
+      setTheme("light");
+      setCheck(false);
+    }
+  };
   return (
     <section className="flex flex-col md:flex-row h-screen items-center">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
@@ -56,7 +70,7 @@ export default function Login() {
             </a>
           </p>
 
-          <Switch label="Theme" />
+          <Switch checked={check} onCheckedChange={changeTheme} />
         </div>
       </div>
     </section>
