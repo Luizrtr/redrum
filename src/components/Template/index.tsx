@@ -1,11 +1,12 @@
 "use client";
-import * as React from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useTheme } from "next-themes";
 import { RxDashboard } from "react-icons/rx";
 import { FiTable } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineSettings } from "react-icons/md";
+import { usePathname } from "next/navigation";
 
 import {
   Menubar,
@@ -34,9 +35,18 @@ import { H2 } from "@/components/Text/h2";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-const Page: NextPage = () => {
+interface Iprops {
+  title: string;
+  children: ReactNode;
+}
+
+const Template: NextPage<Iprops> = ({ children, title }) => {
   const { theme, setTheme } = useTheme();
-  const [check, setCheck] = React.useState(false);
+  const [check, setCheck] = useState(false);
+  const [path, setPath] = useState("");
+  const pathname = usePathname();
+
+  console.log();
 
   const changeTheme = () => {
     if (theme === "light") {
@@ -47,6 +57,11 @@ const Page: NextPage = () => {
       setCheck(false);
     }
   };
+
+  useEffect(() => {
+    setPath(pathname.replace("/", ""));
+  }, []);
+
   return (
     <main className="flex">
       <div className="w-2/5 md:w-1/5 h-screen px-4 py-6 hidden md:flex">
@@ -85,9 +100,9 @@ const Page: NextPage = () => {
           <div className="hidden md:flex flex-col gap-3">
             <div>
               <Label className="text-gray-600">Pages </Label>
-              <Label>/ Dashboard </Label>
+              <Label className="capitalize">/ {path} </Label>
             </div>
-            <H2 className="font-bold">Dashboard</H2>
+            <H2 className="capitalize">{title}</H2>
           </div>
           <div className="flex md:hidden flex-col gap-3">
             <Drawer>
@@ -153,9 +168,10 @@ const Page: NextPage = () => {
             <Switch checked={check} onCheckedChange={changeTheme} />
           </div>
         </div>
+        <div className="mt-4 px-24">{children}</div>
       </div>
     </main>
   );
 };
 
-export default Page;
+export default Template;
