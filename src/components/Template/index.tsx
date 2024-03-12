@@ -7,6 +7,7 @@ import { FiTable } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineSettings } from "react-icons/md";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import {
   Menubar,
@@ -32,21 +33,19 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { H2 } from "@/components/Text/h2";
-import Link from "next/link";
 import { Button } from "../ui/button";
 
 interface Iprops {
   title: string;
   children: ReactNode;
+  slug: string;
 }
 
-const Template: NextPage<Iprops> = ({ children, title }) => {
+const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   const { theme, setTheme } = useTheme();
   const [check, setCheck] = useState(false);
   const [path, setPath] = useState("");
   const pathname = usePathname();
-
-  console.log();
 
   const changeTheme = () => {
     if (theme === "light") {
@@ -72,22 +71,34 @@ const Template: NextPage<Iprops> = ({ children, title }) => {
           <Separator />
           <div className="py-8 flex flex-col gap-2">
             <Link
-              href="#"
-              className="flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+              href="/home"
+              className={
+                slug === "dashboard"
+                  ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                  : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+              }
             >
               <RxDashboard size={24} />
               <Label className="text-md">Dashboard</Label>
             </Link>
             <Link
-              href="#"
-              className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+              href="/table"
+              className={
+                slug === "table"
+                  ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                  : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+              }
             >
               <FiTable size={24} />
               <Label className="text-md">Table</Label>
             </Link>
             <Link
-              href="#"
-              className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+              href="/settings"
+              className={
+                slug === "settings"
+                  ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                  : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+              }
             >
               <MdOutlineSettings size={24} />
               <Label className="text-md">Settings</Label>
@@ -116,22 +127,34 @@ const Template: NextPage<Iprops> = ({ children, title }) => {
                 <Separator />
                 <div className="py-8 flex flex-col gap-2 px-1">
                   <Link
-                    href="#"
-                    className="flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                    href="/home"
+                    className={
+                      slug === "dashboard"
+                        ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                    }
                   >
                     <RxDashboard size={26} />
                     <Label className="text-md">Dashboard</Label>
                   </Link>
                   <Link
-                    href="#"
-                    className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                    href="/table"
+                    className={
+                      slug === "table"
+                        ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                    }
                   >
                     <FiTable size={26} />
                     <Label className="text-md">Table</Label>
                   </Link>
                   <Link
-                    href="#"
-                    className="flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                    href="/settings"
+                    className={
+                      slug === "settings"
+                        ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                    }
                   >
                     <MdOutlineSettings size={26} />
                     <Label className="text-md">Settings</Label>
@@ -168,7 +191,7 @@ const Template: NextPage<Iprops> = ({ children, title }) => {
             <Switch checked={check} onCheckedChange={changeTheme} />
           </div>
         </div>
-        <div className="mt-4 px-24">{children}</div>
+        <div className="mt-4 px-4 md:px-24">{children}</div>
       </div>
     </main>
   );
