@@ -65,7 +65,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   return (
     <main className="flex">
       <div className="w-2/5 lg:w-1/5 h-screen px-4 py-6 hidden lg:flex">
-        <div className="bg-light/50 dark:bg-dark rounded-lg h-full w-full px-2 py-6">
+        <div className="rounded-xl border dark:border-gray-50 border-white-50 text-card-foreground shadow h-full w-full px-2 py-6">
           <div className="text-center pb-8">
             <H2>LOGO</H2>
           </div>
@@ -75,8 +75,8 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               href="/home"
               className={
                 slug === "dashboard"
-                  ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
-                  : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                  ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
+                  : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
               }
             >
               <RxDashboard size={24} />
@@ -86,8 +86,8 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               href="/table"
               className={
                 slug === "table"
-                  ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
-                  : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                  ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
+                  : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
               }
             >
               <FiTable size={24} />
@@ -97,8 +97,8 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               href="/settings"
               className={
                 slug === "settings"
-                  ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
-                  : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                  ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
+                  : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
               }
             >
               <MdOutlineSettings size={24} />
@@ -131,8 +131,8 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                     href="/home"
                     className={
                       slug === "dashboard"
-                        ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
-                        : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                        ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
                     }
                   >
                     <RxDashboard size={26} />
@@ -142,8 +142,8 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                     href="/table"
                     className={
                       slug === "table"
-                        ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
-                        : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                        ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
                     }
                   >
                     <FiTable size={26} />
@@ -153,8 +153,8 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                     href="/settings"
                     className={
                       slug === "settings"
-                        ? "flex gap-4 p-4 rounded-lg bg-purple/50 dark:bg-indigo"
-                        : "flex gap-4 p-4 rounded-lg active:dark:bg-indigo/50 active:bg-purple/50"
+                        ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
                     }
                   >
                     <MdOutlineSettings size={26} />
