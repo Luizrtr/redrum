@@ -34,6 +34,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { H2 } from "@/components/Text/h2";
 import { Button } from "../ui/button";
+import { Span } from "../Text/span";
 
 interface Iprops {
   title: string;
@@ -63,8 +64,8 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
 
   return (
     <main className="flex">
-      <div className="w-2/5 md:w-1/5 h-screen px-4 py-6 hidden md:flex">
-        <div className="bg-gray-200 dark:bg-dark rounded-lg h-full w-full px-2 py-6">
+      <div className="w-2/5 lg:w-1/5 h-screen px-4 py-6 hidden lg:flex">
+        <div className="bg-light/50 dark:bg-dark rounded-lg h-full w-full px-2 py-6">
           <div className="text-center pb-8">
             <H2>LOGO</H2>
           </div>
@@ -107,15 +108,15 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
         </div>
       </div>
       <div className="min-h-screen w-full">
-        <div className="flex justify-between py-4 items-center px-4 md:px-24">
-          <div className="hidden md:flex flex-col gap-3">
+        <div className="flex justify-between py-4 items-center px-4 lg:px-24">
+          <div className="hidden lg:flex flex-col gap-3">
             <div>
-              <Label className="text-gray-600">Pages </Label>
+              <Span>Pages </Span>
               <Label className="capitalize">/ {path} </Label>
             </div>
             <H2 className="capitalize">{title}</H2>
           </div>
-          <div className="flex md:hidden flex-col gap-3">
+          <div className="flex lg:hidden flex-col gap-3">
             <Drawer>
               <DrawerTrigger>
                 <GiHamburgerMenu size={26} />
@@ -191,7 +192,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
             <Switch checked={check} onCheckedChange={changeTheme} />
           </div>
         </div>
-        <div className="mt-4 px-4 md:px-24">{children}</div>
+        <div className="mt-4 px-4 lg:px-24">{children}</div>
       </div>
     </main>
   );
