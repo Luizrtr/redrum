@@ -174,7 +174,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <MenubarMenu>
                 <MenubarTrigger className="p-0">
                   <Avatar className="cursor-pointer">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src="https://github.com/Luizrtr.png" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </MenubarTrigger>
