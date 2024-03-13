@@ -13,6 +13,8 @@ import Template from "@/components/Template";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Span } from "@/components/Text/span";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 const data = [
   {
@@ -78,17 +80,27 @@ const data = [
 ];
 
 export default function Page() {
+  const { theme, setTheme } = useTheme();
   let CompanyBox = (props: any) => {
-    let { x, y, width, height, fill } = props;
+    let { x, y, width, height } = props;
 
     return (
       <svg>
         <defs>
           <linearGradient id="CompanyBox" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style={{ stopColor: fill[0], stopOpacity: 1 }} />
+            <stop
+              offset="0%"
+              style={{
+                stopColor: theme === "dark" ? "#FAFAFA" : "#09090B",
+                stopOpacity: 1,
+              }}
+            />
             <stop
               offset="100%"
-              style={{ stopColor: fill[1], stopOpacity: 1 }}
+              style={{
+                stopColor: theme === "dark" ? "#FAFAFA" : "#09090B",
+                stopOpacity: 1,
+              }}
             />
           </linearGradient>
         </defs>
@@ -103,6 +115,7 @@ export default function Page() {
   };
 
   const toPercent = (decimal: number, fixed = 0) => `$${decimal}`;
+
   return (
     <main>
       <Template slug="dashboard" title="Dashboard">
@@ -177,7 +190,11 @@ export default function Page() {
                     tick={{ fontSize: 12, fill: "#A1A1AA", fontWeight: "500" }}
                   />
                   <Tooltip />
-                  <Bar dataKey="uv" fill="#09090B" shape={<CompanyBox />} />
+                  <Bar
+                    dataKey="uv"
+                    fill="#FAFAFA"
+                    shape={<CompanyBox />}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
