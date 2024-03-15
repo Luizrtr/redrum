@@ -190,13 +190,19 @@ export default function Page() {
                     tick={{ fontSize: 12, fill: "#A1A1AA", fontWeight: "500" }}
                   />
                   <Tooltip />
-                  <Bar
-                    dataKey="uv"
-                    fill="#FAFAFA"
-                    shape={<CompanyBox />}
-                  />
+                  <Bar dataKey="uv" fill="#FAFAFA" shape={<CompanyBox />} />
                 </BarChart>
               </ResponsiveContainer>
+            </div>
+          </Card>
+          <Card className="lg:col-span-3 col-span-4">
+            <div className="flex flex-col space-y-1.5 p-6">
+              <h3 className="font-semibold leading-none tracking-tight">
+                Recent Sales
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                You made 265 sales this month.
+              </p>
             </div>
           </Card>
         </div>
