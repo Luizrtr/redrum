@@ -1,15 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { useTheme } from "next-themes";
+import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useTheme } from "next-themes";
-import * as React from "react";
+import { AuthContext } from "@/Contexts/AuthContext";
+
+interface IData {
+  email: string;
+  password: string;
+}
 
 export default function Login() {
   const { theme, setTheme } = useTheme();
-  const [check, setCheck] = React.useState(false);
+  const [check, setCheck] = useState(false);
+  const { register, handleSubmit } = useForm<IData>();
+  const { signIn } = useContext(AuthContext);
+
+  async function handleSignIn(data: IData) {
+    await signIn(data);
+  }
 
   const changeTheme = () => {
     if (theme === "light") {
@@ -39,19 +53,32 @@ export default function Login() {
             Login
           </h1>
 
-          <form className="mt-6" action="#" method="POST">
+          <form
+            className="mt-6"
+            action="#"
+            method="POST"
+            onSubmit={handleSubmit(handleSignIn)}
+          >
             <div className="flex flex-col gap-4">
               <Label className="block text-gray-900 dark:text-gray-300">
-                User
+                E-mail
               </Label>
-              <Input type="string" placeholder="Enter User" />
+              <Input
+                {...register("email")}
+                type="email"
+                placeholder="Enter E-mail"
+              />
             </div>
 
             <div className="mt-4 flex flex-col gap-4">
               <Label className="block text-gray-900 dark:text-gray-300">
                 Password
               </Label>
-              <Input type="password" placeholder="Enter Password" />
+              <Input
+                {...register("password")}
+                type="password"
+                placeholder="Enter Password"
+              />
             </div>
             <Button
               type="submit"
