@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useTheme } from "next-themes";
 import { RxDashboard } from "react-icons/rx";
@@ -35,6 +35,7 @@ import { Label } from "@/components/ui/label";
 import { H2 } from "@/components/Text/h2";
 import { Button } from "../ui/button";
 import { Span } from "../Text/span";
+import { AuthContext } from "@/Contexts/AuthContext";
 
 interface Iprops {
   title: string;
@@ -47,6 +48,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   const [check, setCheck] = useState(false);
   const [path, setPath] = useState("");
   const pathname = usePathname();
+  const { user } = useContext(AuthContext);
 
   const changeTheme = () => {
     if (theme === "light") {
@@ -174,7 +176,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <MenubarMenu>
                 <MenubarTrigger className="p-0">
                   <Avatar className="cursor-pointer">
-                    <AvatarImage src="https://github.com/Luizrtr.png" />
+                    <AvatarImage src={user?.avatar_url} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </MenubarTrigger>

@@ -20,3 +20,14 @@ export async function signInRequest(data: signInRequestData) {
     },
   };
 }
+
+export async function recoverUserInformation() {
+  await delay();
+  return {
+    user: {
+      name: "Luiz Eduardo",
+      email: "luizrtr@outlook.com",
+      avatar_url: "https://github.com/Luizrtr.png",
+    },
+  };
+}

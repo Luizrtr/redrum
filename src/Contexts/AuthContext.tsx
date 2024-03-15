@@ -1,8 +1,8 @@
 "use client";
-import { createContext, useState } from "react";
-import { setCookie } from "nookies";
+import { createContext, useEffect, useState } from "react";
+import { setCookie, parseCookies } from "nookies";
 
-import { signInRequest } from "@/services/auth";
+import { recoverUserInformation, signInRequest } from "@/services/auth";
 import { useRouter } from "next/navigation";
 
 type User = {
@@ -28,6 +28,7 @@ export function AuthProvider({ children }: any) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;
+  const cookies = parseCookies();
 
   async function signIn({ email, password }: SignInData) {
     const { token, user } = await signInRequest({
@@ -42,6 +43,16 @@ export function AuthProvider({ children }: any) {
     setUser(user);
     router.push("/home");
   }
+
+  useEffect(() => {
+    const token = cookies["token_redrum"];
+
+    if (token) {
+      recoverUserInformation().then((response) => {
+        setUser(response.user);
+      });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
