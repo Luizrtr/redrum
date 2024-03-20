@@ -4,6 +4,8 @@ import { setCookie, parseCookies } from "nookies";
 
 import { recoverUserInformation, signInRequest } from "@/services/auth";
 import { useRouter } from "next/navigation";
+import { api, getAPIClient } from "@/services/api";
+import { GetServerSideProps } from "next";
 
 type User = {
   name: string;
@@ -40,13 +42,14 @@ export function AuthProvider({ children }: any) {
       maxAge: 60 * 60 * 1, // 1 h
     });
 
+    api.defaults.headers["Authorization"] = `Bearer ${token}`;
+
     setUser(user);
     router.push("/home");
   }
 
   useEffect(() => {
     const token = cookies["token_redrum"];
-
     if (token) {
       recoverUserInformation().then((response) => {
         setUser(response.user);
@@ -60,3 +63,21 @@ export function AuthProvider({ children }: any) {
     </AuthContext.Provider>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const apiClient = getAPIClient(ctx);
+  const { ["token_redrum.token"]: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

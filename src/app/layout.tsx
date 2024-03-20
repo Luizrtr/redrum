@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/providers";
 import { GeistSans } from "geist/font/sans";

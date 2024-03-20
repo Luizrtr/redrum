@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/Contexts/AuthContext";
+import { Card } from "@/components/ui/card";
+import { Span } from "@/components/Text/span";
+import { H3 } from "@/components/Text/h3";
 
 interface IData {
   email: string;
@@ -45,61 +49,45 @@ export default function Login() {
       </div>
 
       <div
-        className="bg-gray-100 dark:bg-dark w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12
+        className="bg-white dark:bg-black w-full md:max-w-md lg:max-w-full md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12
         flex items-center justify-center"
       >
-        <div className="w-full h-100">
-          <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12 text-gray-900 dark:text-gray-300">
-            Login
-          </h1>
-
-          <form
-            className="mt-6"
-            action="#"
-            method="POST"
-            onSubmit={handleSubmit(handleSignIn)}
-          >
-            <div className="flex flex-col gap-4">
-              <Label className="block text-gray-900 dark:text-gray-300">
-                E-mail
-              </Label>
-              <Input
-                {...register("email")}
-                type="email"
-                placeholder="Enter E-mail"
-              />
-            </div>
-
-            <div className="mt-4 flex flex-col gap-4">
-              <Label className="block text-gray-900 dark:text-gray-300">
-                Password
-              </Label>
-              <Input
-                {...register("password")}
-                type="password"
-                placeholder="Enter Password"
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full block bg-indigo hover:bg-indigo-40bg-indigog-indigo-400 text-white font-semibold rounded-lg
-              px-4 py-3 mt-6"
-            >
-              Log In
-            </Button>
-          </form>
-
-          <hr className="my-6 border-gray-900 dark:border-gray-300 w-full text-gray-900 dark:text-gray-300" />
-          <p className="mt-8 text-gray-900 dark:text-gray-300">
-            Need an account?{" "}
-            <a href="#" className="text-blue font-semibold">
-              Create an account
-            </a>
-          </p>
-
-          <Switch checked={check} onCheckedChange={changeTheme} />
-        </div>
+        <Tabs defaultValue="account" className="w-[400px]">
+          <TabsList>
+            <TabsTrigger value="account">Login</TabsTrigger>
+            <TabsTrigger value="password">Create</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">
+            <Card>
+              <div className="flex flex-col p-6 space-y-1">
+                <H3>Login</H3>
+                <Span>Enter your email below to create your account</Span>
+              </div>
+              <div className="p-6 pt-0 space-y-2">
+                <div className="space-y-1">
+                  <Label>E-mail</Label>
+                  <Input />
+                </div>
+                <div className="space-y-1">
+                  <Label>Password</Label>
+                  <Input />
+                </div>
+              </div>
+              <div className="flex items-center p-6 pt-0">
+                <Button>Submit</Button>
+              </div>
+            </Card>
+          </TabsContent>
+          <TabsContent value="password">
+            <Card>Change your password here.</Card>
+          </TabsContent>
+        </Tabs>
       </div>
+      <Switch
+        checked={check}
+        onCheckedChange={changeTheme}
+        className="absolute"
+      />
     </section>
   );
 }
