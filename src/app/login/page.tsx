@@ -52,24 +52,51 @@ export default function Login() {
         className="bg-white dark:bg-black w-full md:max-w-md lg:max-w-full md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12
         flex items-center justify-center"
       >
-        <Tabs defaultValue="account" className="w-[400px]">
+        <Tabs defaultValue="login" className="w-[400px]">
           <TabsList>
-            <TabsTrigger value="account">Login</TabsTrigger>
-            <TabsTrigger value="password">Create</TabsTrigger>
+            <TabsTrigger value="login">Log-In</TabsTrigger>
+            <TabsTrigger value="create">Sign-In</TabsTrigger>
           </TabsList>
-          <TabsContent value="account">
+          <TabsContent value="login">
             <Card>
               <div className="flex flex-col p-6 space-y-1">
-                <H3>Login</H3>
-                <Span>Enter your email below to create your account</Span>
+                <H3>Log-In</H3>
+                <Span>
+                  Enter your email and password below to access your account
+                </Span>
+              </div>
+              <form onSubmit={handleSubmit(handleSignIn)}>
+                <div className="p-6 pt-0 space-y-2">
+                  <div className="space-y-1">
+                    <Label>E-mail</Label>
+                    <Input placeholder="m@exemple.com" {...register("email")} />
+                  </div>
+                  <div className="space-y-1">
+                    <Label>Password</Label>
+                    <Input {...register("password")} />
+                  </div>
+                </div>
+                <div className="flex items-center p-6 pt-0">
+                  <Button>Submit</Button>
+                </div>
+              </form>
+            </Card>
+          </TabsContent>
+          <TabsContent value="create">
+            <Card>
+              <div className="flex flex-col p-6 space-y-1">
+                <H3>Sign-In</H3>
+                <Span>
+                  Enter your email and password below to create your account
+                </Span>
               </div>
               <div className="p-6 pt-0 space-y-2">
                 <div className="space-y-1">
                   <Label>E-mail</Label>
-                  <Input />
+                  <Input placeholder="m@exemple.com" />
                 </div>
                 <div className="space-y-1">
-                  <Label>Password</Label>
+                  <Label>New password</Label>
                   <Input />
                 </div>
               </div>
@@ -77,9 +104,6 @@ export default function Login() {
                 <Button>Submit</Button>
               </div>
             </Card>
-          </TabsContent>
-          <TabsContent value="password">
-            <Card>Change your password here.</Card>
           </TabsContent>
         </Tabs>
       </div>
