@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useTheme } from "next-themes";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/Contexts/AuthContext";
 import { Card } from "@/components/ui/card";
@@ -16,34 +15,61 @@ import { Span } from "@/components/Text/span";
 import { H3 } from "@/components/Text/h3";
 
 interface IData {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
+  emailSignUp?: string;
+  passwordSignUp?: string;
 }
 
 export default function Login() {
   const { theme, setTheme } = useTheme();
-  const [check, setCheck] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm<IData>();
+  const [requiredSignIn, setRequiredSignIn] = useState(true);
+  const [requiredSignUp, setRequiredSignUp] = useState(false);
+  const { register, handleSubmit, setError } = useForm<IData>();
   const { signIn } = useContext(AuthContext);
 
-  async function handleSignIn(data: IData) {
+  async function handleSignIn(data: {email: string, password: string}) {
+
     setLoading(true);
-    // await signIn(data);
-    setTimeout(() => {
-      setLoading(false);
-    }, 10000);
+    await signIn({ email: data.email, password: data.password});
+    setLoading(false);
+  }
+
+  async function handleSignUp(data: IData) {
+    console.log("handleSignUp");
   }
 
   const changeTheme = () => {
     if (theme === "light") {
       setTheme("dark");
-      setCheck(true);
     } else {
       setTheme("light");
-      setCheck(false);
     }
   };
+
+  useEffect(() => {
+    console.log(requiredSignIn);
+    setError("email", {
+      types: {
+        required: "This is required",
+        minLength: "This is minLength",
+      },
+    });
+  }, []);
+
+  const configForm = (value: string) => {
+    if (value === "active") {
+      setRequiredSignIn(true);
+      setRequiredSignUp(false);
+    } else if (value === "inactive") {
+      setRequiredSignIn(false);
+      setRequiredSignUp(true);
+    }
+
+    return false;
+  };
+
   return (
     <section className="flex flex-col md:flex-row h-screen items-center">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
@@ -59,15 +85,20 @@ export default function Login() {
         flex items-center justify-center"
       >
         {!loading ? (
-          <Tabs defaultValue="login" className="w-[400px]">
+          <Tabs defaultValue="signin" className="w-[400px]">
             <TabsList>
-              <TabsTrigger value="login">Log-In</TabsTrigger>
-              <TabsTrigger value="create">Sign-In</TabsTrigger>
+              <TabsTrigger
+                value="signin"
+                ref={(e) => configForm(e?.dataset.state ?? "")}
+              >
+                Sign-In
+              </TabsTrigger>
+              <TabsTrigger value="signup">Sign-Up</TabsTrigger>
             </TabsList>
-            <TabsContent value="login">
+            <TabsContent value="signin">
               <Card>
                 <div className="flex flex-col p-6 space-y-1">
-                  <H3>Log-In</H3>
+                  <H3>Sign-In</H3>
                   <Span>
                     Enter your email and password below to access your account
                   </Span>
@@ -78,12 +109,14 @@ export default function Login() {
                       <Label>E-mail</Label>
                       <Input
                         placeholder="m@exemple.com"
-                        {...register("email")}
+                        {...register("email", { required: requiredSignIn })}
                       />
                     </div>
                     <div className="space-y-1">
                       <Label>Password</Label>
-                      <Input {...register("password")} />
+                      <Input
+                        {...register("password", { required: requiredSignIn })}
+                      />
                     </div>
                   </div>
                   <div className="flex items-center p-6 pt-0">
@@ -92,27 +125,38 @@ export default function Login() {
                 </form>
               </Card>
             </TabsContent>
-            <TabsContent value="create">
+            <TabsContent value="signup">
               <Card>
                 <div className="flex flex-col p-6 space-y-1">
-                  <H3>Sign-In</H3>
+                  <H3>Sign-Up</H3>
                   <Span>
                     Enter your email and password below to create your account
                   </Span>
                 </div>
-                <div className="p-6 pt-0 space-y-2">
-                  <div className="space-y-1">
-                    <Label>E-mail</Label>
-                    <Input placeholder="m@exemple.com" />
+                <form action="" onSubmit={handleSubmit(handleSignUp)}>
+                  <div className="p-6 pt-0 space-y-2">
+                    <div className="space-y-1">
+                      <Label>E-mail</Label>
+                      <Input
+                        placeholder="m@exemple.com"
+                        {...register("emailSignUp", {
+                          required: requiredSignUp,
+                        })}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>New password</Label>
+                      <Input
+                        {...register("passwordSignUp", {
+                          required: requiredSignUp,
+                        })}
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-1">
-                    <Label>New password</Label>
-                    <Input />
+                  <div className="flex items-center p-6 pt-0">
+                    <Button>Submit</Button>
                   </div>
-                </div>
-                <div className="flex items-center p-6 pt-0">
-                  <Button>Submit</Button>
-                </div>
+                </form>
               </Card>
             </TabsContent>
           </Tabs>
@@ -126,11 +170,6 @@ export default function Login() {
           </div>
         )}
       </div>
-      <Switch
-        checked={check}
-        onCheckedChange={changeTheme}
-        className="absolute"
-      />
     </section>
   );
 }
