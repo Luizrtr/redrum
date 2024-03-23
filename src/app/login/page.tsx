@@ -29,10 +29,9 @@ export default function Login() {
   const { register, handleSubmit, setError } = useForm<IData>();
   const { signIn } = useContext(AuthContext);
 
-  async function handleSignIn(data: {email: string, password: string}) {
-
+  async function handleSignIn(data: IData) {
     setLoading(true);
-    await signIn({ email: data.email, password: data.password});
+    await signIn({ email: data.email ?? "", password: data.password ?? "" });
     setLoading(false);
   }
 
