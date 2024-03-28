@@ -28,6 +28,7 @@
     "clsx": "^2.1.0",
     "geist": "^1.2.2",
     "lucide-react": "^0.341.0",
+    "mongoose": "^8.2.3",
     "next": "14.1.0",
     "next-themes": "^0.2.1",
     "nookies": "^2.5.2",
@@ -42,6 +43,7 @@
     "vaul": "^0.9.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20",
     "@types/react": "^18",

@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useTheme } from "next-themes";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -13,16 +12,17 @@ import { AuthContext } from "@/Contexts/AuthContext";
 import { Card } from "@/components/ui/card";
 import { Span } from "@/components/Text/span";
 import { H3 } from "@/components/Text/h3";
+import { api } from "@/services/api";
 
 interface IData {
   email?: string;
   password?: string;
+  nameSignUp?: string;
   emailSignUp?: string;
   passwordSignUp?: string;
 }
 
 export default function Login() {
-  const { theme, setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [requiredSignIn, setRequiredSignIn] = useState(true);
   const [requiredSignUp, setRequiredSignUp] = useState(false);
@@ -36,19 +36,31 @@ export default function Login() {
   }
 
   async function handleSignUp(data: IData) {
-    console.log("handleSignUp");
+    setLoading(true);
+    if (!data.emailSignUp || !data.nameSignUp || !data.passwordSignUp) {
+      return;
+    }
+
+    await api
+      .post("api/register", {
+        headers: { "Content-Type": "application/json" },
+        body: {
+          name: data.nameSignUp,
+          email: data.emailSignUp,
+          password: data.passwordSignUp,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((res) => {
+        const { data } = res.response;
+        console.log(data);
+      });
+    setLoading(false);
   }
 
-  const changeTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-  };
-
   useEffect(() => {
-    console.log(requiredSignIn);
     setError("email", {
       types: {
         required: "This is required",
@@ -107,6 +119,7 @@ export default function Login() {
                     <div className="space-y-1">
                       <Label>E-mail</Label>
                       <Input
+                        type="email"
                         placeholder="m@exemple.com"
                         {...register("email", { required: requiredSignIn })}
                       />
@@ -114,6 +127,7 @@ export default function Login() {
                     <div className="space-y-1">
                       <Label>Password</Label>
                       <Input
+                        type="password"
                         {...register("password", { required: requiredSignIn })}
                       />
                     </div>
@@ -135,9 +149,20 @@ export default function Login() {
                 <form action="" onSubmit={handleSubmit(handleSignUp)}>
                   <div className="p-6 pt-0 space-y-2">
                     <div className="space-y-1">
+                      <Label>Name</Label>
+                      <Input
+                        placeholder="Redrum"
+                        type="name"
+                        {...register("nameSignUp", {
+                          required: requiredSignUp,
+                        })}
+                      />
+                    </div>
+                    <div className="space-y-1">
                       <Label>E-mail</Label>
                       <Input
                         placeholder="m@exemple.com"
+                        type="email"
                         {...register("emailSignUp", {
                           required: requiredSignUp,
                         })}
@@ -146,6 +171,7 @@ export default function Login() {
                     <div className="space-y-1">
                       <Label>New password</Label>
                       <Input
+                        type="password"
                         {...register("passwordSignUp", {
                           required: requiredSignUp,
                         })}
