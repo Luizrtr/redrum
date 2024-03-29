@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/server/models/user";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,10 +23,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
     const response = await User.create({
       name,
       email,
-      password,
+      password: hashedPassword,
       avata: "",
     });
 
