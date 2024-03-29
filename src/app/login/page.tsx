@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import { Span } from "@/components/Text/span";
 import { H3 } from "@/components/Text/h3";
 import { api } from "@/services/api";
+import { createUser } from "@/services/function";
 
 interface IData {
   email?: string;
@@ -41,22 +42,17 @@ export default function Login() {
       return;
     }
 
-    await api
-      .post("api/register", {
-        headers: { "Content-Type": "application/json" },
-        body: {
-          name: data.nameSignUp,
-          email: data.emailSignUp,
-          password: data.passwordSignUp,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((res) => {
-        const { data } = res.response;
-        console.log(data);
+    try {
+      await createUser({
+        name: data.nameSignUp,
+        email: data.emailSignUp,
+        password: data.passwordSignUp,
       });
+      // Sucesso! Faça algo após a criação do usuário
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
+    }
+
     setLoading(false);
   }
 

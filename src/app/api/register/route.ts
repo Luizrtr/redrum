@@ -1,12 +1,13 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/server/models/user";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
     await connectMongoDB();
-    const { name, email, password } = await request.json();
-    
+    const { name, email, password } = await req.json();
+
+    console.log(name, email, password);
     if (!name || !email || !password) {
       return NextResponse.json(
         { message: "Failed data sent." },
