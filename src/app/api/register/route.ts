@@ -35,10 +35,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "User failed" }, { status: 400 });
     }
     return NextResponse.json({ message: "User registered" }, { status: 201 });
-
-    //   .then((response) => {
-    //   return NextResponse.json({ message: "User registered" }, { status: 201 });
-    // });
   } catch (error) {
     return NextResponse.json(
       { message: "An error occurred while registering the user." },
