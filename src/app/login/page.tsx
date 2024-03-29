@@ -38,7 +38,24 @@ export default function Login() {
 
   async function handleSignIn(data: IData) {
     setLoading(true);
-    await signIn({ email: data.email ?? "", password: data.password ?? "" });
+    const response = await signIn({
+      email: data.email ?? "",
+      password: data.password ?? "",
+    }).catch((error) => {
+      setAlertError(true);
+      if (error.response) {
+        return error.response.data;
+      } else if (error.request) {
+        return error.request;
+      } else {
+        return error.message;
+      }
+    });
+
+    if (response) {
+      setAlertMessage(response.message);
+    }
+
     setLoading(false);
   }
 
@@ -146,9 +163,21 @@ export default function Login() {
                       <Label>Password</Label>
                       <Input
                         type="password"
-                        {...register("password", { required: requiredSignIn })}
+                        {...register("password", {
+                          required: requiredSignIn,
+                          minLength: 8,
+                        })}
                       />
                     </div>
+                    {tabs === "signin" && alertError && (
+                      <div className="pt-4">
+                        <Alert variant="error">
+                          <LuAlertTriangle size={18} />
+                          <AlertTitle>Error</AlertTitle>
+                          <AlertDescription>{alertMessage}</AlertDescription>
+                        </Alert>
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center p-6 pt-0">
                     <Button>Submit</Button>
@@ -173,6 +202,7 @@ export default function Login() {
                         type="name"
                         {...register("nameSignUp", {
                           required: requiredSignUp,
+                          minLength: 5,
                         })}
                       />
                     </div>
@@ -192,6 +222,7 @@ export default function Login() {
                         type="password"
                         {...register("passwordSignUp", {
                           required: requiredSignUp,
+                          minLength: 8,
                         })}
                       />
                     </div>
