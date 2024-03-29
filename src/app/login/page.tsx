@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { LuAlertTriangle } from "react-icons/lu";
+import { LiaUser } from "react-icons/lia";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,7 +28,8 @@ interface IData {
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const [alertError, setAlertError] = useState(false);
-  const [errorField, setErrorField] = useState<string>("");
+  const [alertSucess, setAlertSucess] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
   const [tabs, setTabs] = useState<string>("signin");
   const [requiredSignIn, setRequiredSignIn] = useState(true);
   const [requiredSignUp, setRequiredSignUp] = useState(false);
@@ -42,6 +44,15 @@ export default function Login() {
 
   async function handleSignUp(data: IData) {
     setLoading(true);
+
+    if (alertError) {
+      setAlertError(false);
+    }
+
+    if (alertSucess) {
+      setAlertSucess(false);
+    }
+
     if (!data.emailSignUp || !data.nameSignUp || !data.passwordSignUp) {
       return;
     }
@@ -53,14 +64,17 @@ export default function Login() {
     }).then((response: any) => {
       const { data } = response;
 
-      if (response.status === 202) {
+      if (response.status === 201) {
+        setAlertSucess(true);
+      } else {
         setAlertError(true);
-        setErrorField(data.message);
       }
 
+      setAlertMessage(data.message);
       setTabs("signup");
     });
 
+    reset();
     setLoading(false);
   }
 
@@ -186,7 +200,16 @@ export default function Login() {
                         <Alert variant="error">
                           <LuAlertTriangle size={18} />
                           <AlertTitle>Error</AlertTitle>
-                          <AlertDescription>{errorField}</AlertDescription>
+                          <AlertDescription>{alertMessage}</AlertDescription>
+                        </Alert>
+                      </div>
+                    )}
+                    {alertSucess && (
+                      <div className="pt-4">
+                        <Alert variant="sucess">
+                          <LiaUser size={20} />
+                          <AlertTitle>Sucess</AlertTitle>
+                          <AlertDescription>{alertMessage}</AlertDescription>
                         </Alert>
                       </div>
                     )}

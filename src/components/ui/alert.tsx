@@ -12,6 +12,8 @@ const alertVariants = cva(
         destructive:
           "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
         error: "border-red/50 text-red dark:border-red [&>svg]:text-red",
+        sucess:
+          "border-green/50 text-green dark:border-green [&>svg]:text-green",
       },
     },
     defaultVariants: {

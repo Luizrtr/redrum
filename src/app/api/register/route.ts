@@ -22,19 +22,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await User.create({
+    const response = await User.create({
       name,
       email,
       password,
       avata: "",
-    }).then((response) => {
-      return NextResponse.json(
-        { message: "User registered - ", response },
-        { status: 201 }
-      );
     });
 
-    return NextResponse.json({ message: "User failed" }, { status: 400 });
+    if (!response) {
+      return NextResponse.json({ message: "User failed" }, { status: 400 });
+    }
+    return NextResponse.json({ message: "User registered" }, { status: 201 });
+
+    //   .then((response) => {
+    //   return NextResponse.json({ message: "User registered" }, { status: 201 });
+    // });
   } catch (error) {
     return NextResponse.json(
       { message: "An error occurred while registering the user." },
