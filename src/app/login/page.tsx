@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { LuAlertTriangle } from "react-icons/lu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,8 +13,8 @@ import { AuthContext } from "@/Contexts/AuthContext";
 import { Card } from "@/components/ui/card";
 import { Span } from "@/components/Text/span";
 import { H3 } from "@/components/Text/h3";
-import { api } from "@/services/api";
 import { createUser } from "@/services/function";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface IData {
   email?: string;
@@ -25,9 +26,12 @@ interface IData {
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
+  const [alertError, setAlertError] = useState(false);
+  const [errorField, setErrorField] = useState<string>("");
+  const [tabs, setTabs] = useState<string>("signin");
   const [requiredSignIn, setRequiredSignIn] = useState(true);
   const [requiredSignUp, setRequiredSignUp] = useState(false);
-  const { register, handleSubmit, setError } = useForm<IData>();
+  const { register, handleSubmit, setError, reset } = useForm<IData>();
   const { signIn } = useContext(AuthContext);
 
   async function handleSignIn(data: IData) {
@@ -42,16 +46,20 @@ export default function Login() {
       return;
     }
 
-    try {
-      await createUser({
-        name: data.nameSignUp,
-        email: data.emailSignUp,
-        password: data.passwordSignUp,
-      });
-      // Sucesso! Faça algo após a criação do usuário
-    } catch (error) {
-      console.error("Erro ao criar usuário:", error);
-    }
+    await createUser({
+      name: data.nameSignUp,
+      email: data.emailSignUp,
+      password: data.passwordSignUp,
+    }).then((response: any) => {
+      const { data } = response;
+
+      if (response.status === 202) {
+        setAlertError(true);
+        setErrorField(data.message);
+      }
+
+      setTabs("signup");
+    });
 
     setLoading(false);
   }
@@ -92,7 +100,7 @@ export default function Login() {
         flex items-center justify-center"
       >
         {!loading ? (
-          <Tabs defaultValue="signin" className="w-[400px]">
+          <Tabs defaultValue={tabs} className="w-[400px]">
             <TabsList>
               <TabsTrigger
                 value="signin"
@@ -173,6 +181,15 @@ export default function Login() {
                         })}
                       />
                     </div>
+                    {alertError && (
+                      <div className="pt-4">
+                        <Alert variant="error">
+                          <LuAlertTriangle size={18} />
+                          <AlertTitle>Error</AlertTitle>
+                          <AlertDescription>{errorField}</AlertDescription>
+                        </Alert>
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center p-6 pt-0">
                     <Button>Submit</Button>

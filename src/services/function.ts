@@ -7,10 +7,10 @@ interface UserData {
   password: string;
 }
 
-export const createUser = async (userData: UserData): Promise<string> => {
+export const createUser = async (userData: UserData) => {
   try {
     const response = await api.post("api/register", userData);
-    return response.data;
+    return response;
   } catch (error) {
     throw new Error(error);
   }
