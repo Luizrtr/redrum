@@ -13,10 +13,10 @@ import Template from "@/components/Template";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Span } from "@/components/Text/span";
-import { Suspense, useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useTheme } from "next-themes";
 import { AuthContext } from "@/Contexts/AuthContext";
-import { api } from "@/services/api";
+import RequireAuthentication from "@/lib/withAuth";
 
 const data = [
   {
@@ -81,7 +81,7 @@ const data = [
   },
 ];
 
-export default function Page() {
+function Page() {
   const { theme, setTheme } = useTheme();
   const { user } = useContext(AuthContext);
 
@@ -212,3 +212,5 @@ export default function Page() {
     </Template>
   );
 }
+
+export default RequireAuthentication(Page);

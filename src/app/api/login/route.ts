@@ -3,6 +3,13 @@ import User from "@/server/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { v4 as uuid } from "uuid";
+import jwt from "jsonwebtoken";
+
+type User = {
+  name: string;
+  email: string;
+  avatar: string;
+};
 
 export async function POST(req: NextRequest) {
   try {
@@ -34,13 +41,18 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    const token = createJWT({
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    });
 
     return NextResponse.json(
       {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
-        token: uuid(),
+        token: token,
       },
       { status: 200 }
     );
@@ -51,3 +63,13 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+const createJWT = (userData: User) => {
+  try {
+    const token = jwt.sign(userData, "token_redrum", { expiresIn: "1h" });
+    return token;
+  } catch (error) {
+    console.error("Erro ao criar o token JWT:", error);
+    return null;
+  }
+};

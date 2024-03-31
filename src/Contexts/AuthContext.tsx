@@ -1,16 +1,16 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
-import { setCookie, parseCookies } from "nookies";
 
+import { setCookie, parseCookies } from "nookies";
 import { useRouter } from "next/navigation";
 import { api, getAPIClient } from "@/services/api";
 import { GetServerSideProps } from "next";
+import { recoverUserInformation } from "@/lib/auth";
 
 type User = {
   name: string;
   email: string;
   avatar: string;
-  token: string;
 };
 
 type SignInData = {
@@ -32,33 +32,33 @@ export function AuthProvider({ children }: any) {
   const cookies = parseCookies();
   const router = useRouter();
 
+  useEffect(() => {
+    const token = cookies["token_redrum"];
+
+    if (token) {
+      recoverUserInformation().then((response) => {
+        setUser(response);
+      });
+    }
+  }, []);
+
   async function signIn({ email, password }: SignInData) {
     await api.post("api/login", { email, password }).then((response) => {
       const { data } = response;
+      const userAuth: User = {
+        name: data.name,
+        email: data.email,
+        avatar: data.avatar,
+      };
       setCookie(undefined, "token_redrum", data.token, {
         maxAge: 60 * 60 * 1, // 1 h
       });
       api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
-      setUser({
-        name: data.name,
-        email: data.email,
-        avatar: data.avatar,
-        token: data.token,
-      });
-
+      setUser(userAuth);
       router.push("/home");
       return response;
     });
   }
-
-  // useEffect(() => {
-  //   const token = cookies["token_redrum"];
-  //   if (token) {
-  //     recoverUserInformation().then((response) => {
-  //       setUser(response.user);
-  //     });
-  //   }
-  // }, []);
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
@@ -68,13 +68,12 @@ export function AuthProvider({ children }: any) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const apiClient = getAPIClient(ctx);
-  const { ["token_redrum.token"]: token } = parseCookies(ctx);
+  const { ["token_redrum"]: token } = parseCookies(ctx);
 
   if (!token) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/login",
         permanent: false,
       },
     };
