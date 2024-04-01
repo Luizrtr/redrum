@@ -102,6 +102,7 @@ export default function Login() {
         minLength: "This is minLength",
       },
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const configForm = (value: string) => {

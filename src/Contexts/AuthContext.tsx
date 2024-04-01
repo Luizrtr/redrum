@@ -1,10 +1,11 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
-
 import { setCookie, parseCookies } from "nookies";
+import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
-import { api, getAPIClient } from "@/services/api";
 import { GetServerSideProps } from "next";
+
+import { api } from "@/services/api";
 import { recoverUserInformation } from "@/lib/auth";
 
 type User = {
@@ -27,34 +28,31 @@ type AuthContextType = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: any) {
-  const [user, setUser] = useState<User | null>(null);
-  const isAuthenticated = !!user;
   const cookies = parseCookies();
+  const token = cookies["token_redrum"];
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(
+    token ? jwtDecode(token) : null
+  );
+  const isAuthenticated = !!user;
 
   useEffect(() => {
-    const token = cookies["token_redrum"];
-
     if (token) {
-      recoverUserInformation().then((response) => {
+      recoverUserInformation(token).then((response) => {
         setUser(response);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function signIn({ email, password }: SignInData) {
     await api.post("api/login", { email, password }).then((response) => {
       const { data } = response;
-      const userAuth: User = {
-        name: data.name,
-        email: data.email,
-        avatar: data.avatar,
-      };
       setCookie(undefined, "token_redrum", data.token, {
         maxAge: 60 * 60 * 1, // 1 h
       });
       api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
-      setUser(userAuth);
+      setUser({ name: data.name, email: data.email, avatar: data.avatar });
       router.push("/home");
       return response;
     });

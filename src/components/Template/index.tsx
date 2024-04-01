@@ -62,6 +62,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
 
   useEffect(() => {
     setPath(pathname.replace("/", ""));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -176,7 +177,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <MenubarMenu>
                 <MenubarTrigger className="p-0">
                   <Avatar className="cursor-pointer">
-                    <AvatarImage src={user?.avatar_url} />
+                    <AvatarImage src={user?.avatar ?? ""} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </MenubarTrigger>

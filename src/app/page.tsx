@@ -13,6 +13,7 @@ export default function Page() {
     } else {
       router.push("/home");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <main></main>;
 }

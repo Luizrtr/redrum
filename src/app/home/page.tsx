@@ -13,7 +13,6 @@ import Template from "@/components/Template";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Span } from "@/components/Text/span";
-import { useContext } from "react";
 import { useTheme } from "next-themes";
 import { AuthContext } from "@/Contexts/AuthContext";
 import RequireAuthentication from "@/lib/withAuth";
@@ -82,8 +81,7 @@ const data = [
 ];
 
 function Page() {
-  const { theme, setTheme } = useTheme();
-  const { user } = useContext(AuthContext);
+  const { theme } = useTheme();
 
   let CompanyBox = (props: any) => {
     let { x, y, width, height } = props;

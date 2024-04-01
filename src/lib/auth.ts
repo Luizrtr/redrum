@@ -1,5 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import { parseCookies } from "nookies";
 
 type User = {
   name: string;
@@ -7,13 +6,7 @@ type User = {
   avatar: string;
 };
 
-export async function recoverUserInformation() {
-  const { ["token_redrum"]: token } = parseCookies();
-
-  if (!token) {
-    return null;
-  }
-
+export async function recoverUserInformation(token: string) {
   try {
     const decodedToken: User = await jwtDecode(token);
     return decodedToken;
