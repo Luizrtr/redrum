@@ -17,6 +17,8 @@ import { Span } from "@/components/Text/span";
 import { H3 } from "@/components/Text/h3";
 import { createUser } from "@/services/function";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 interface IData {
   email?: string;
@@ -37,6 +39,7 @@ export default function Login() {
   const { register, handleSubmit, setError, reset } = useForm<IData>();
   const { signIn, isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
+  const { toast } = useToast();
 
   async function handleSignIn(data: IData) {
     setLoading(true);

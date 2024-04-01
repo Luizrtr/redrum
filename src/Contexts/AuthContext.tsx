@@ -7,6 +7,8 @@ import { GetServerSideProps } from "next";
 
 import { api } from "@/services/api";
 import { recoverUserInformation } from "@/lib/auth";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 type User = {
   name: string;
@@ -32,6 +34,7 @@ export function AuthProvider({ children }: any) {
   const cookies = parseCookies();
   const token = cookies["token_redrum"];
   const router = useRouter();
+  const { toast } = useToast();
   const [user, setUser] = useState<User | null>(
     token ? jwtDecode(token) : null
   );
@@ -47,14 +50,18 @@ export function AuthProvider({ children }: any) {
   }, []);
 
   async function signIn({ email, password }: SignInData) {
-    await api.post("api/login", { email, password }).then((response) => {
+    await api.post("api/login", { email, password }).then(async (response) => {
       const { data } = response;
       setCookie(undefined, "token_redrum", data.token, {
         maxAge: 60 * 60 * 1, // 1 h
       });
       api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
       setUser({ name: data.name, email: data.email, avatar: data.avatar });
-      router.push("/home");
+      await router.push("/home");
+      toast({
+        title: "Logged in user.",
+        description: "You have successfully logged in!",
+      });
       return response;
     });
   }
@@ -63,6 +70,10 @@ export function AuthProvider({ children }: any) {
     await destroyCookie(null, "token_redrum");
     setUser(null);
     router.push("/login");
+    toast({
+      title: "Logout account",
+      description: "You have successfully logged out!",
+    });
   }
 
   return (
