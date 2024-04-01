@@ -83,50 +83,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   }, []);
   return (
     <main className="flex">
-      {/* <div className="w-2/5 lg:w-1/5 h-screen px-4 py-6 hidden lg:flex">
-        <div className="rounded-xl border dark:border-gray-50 border-white-50 text-card-foreground shadow h-full w-full px-2 py-6">
-          <div className="text-center pb-8">
-            <H2>LOGO</H2>
-          </div>
-          <Separator />
-          <div className="py-8 flex flex-col gap-2">
-            <Link
-              href="/home"
-              className={
-                slug === "dashboard"
-                  ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
-                  : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
-              }
-            >
-              <RxDashboard size={24} />
-              <Label className="text-md">Dashboard</Label>
-            </Link>
-            <Link
-              href="/table"
-              className={
-                slug === "table"
-                  ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
-                  : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
-              }
-            >
-              <FiTable size={24} />
-              <Label className="text-md">Table</Label>
-            </Link>
-            <Link
-              href="/settings"
-              className={
-                slug === "settings"
-                  ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
-                  : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
-              }
-            >
-              <MdOutlineSettings size={24} />
-              <Label className="text-md">Settings</Label>
-            </Link>
-          </div>
-        </div>
-      </div> */}
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r dark:border-gray-50 border-white-50 sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r dark:border-gray-50 border-white-50 xl:flex">
         <nav className="flex flex-col items-center gap-4 px-2 py-4">
           <Link
             href="#"
