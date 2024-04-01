@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
-import { setCookie, parseCookies } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { GetServerSideProps } from "next";
@@ -23,6 +23,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   user: User | null;
   signIn: (data: SignInData) => Promise<any>;
+  logout: () => void;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -42,7 +43,7 @@ export function AuthProvider({ children }: any) {
         setUser(response);
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function signIn({ email, password }: SignInData) {
@@ -58,8 +59,14 @@ export function AuthProvider({ children }: any) {
     });
   }
 
+  async function logout() {
+    await destroyCookie(null, "token_redrum");
+    setUser(null);
+    router.push("/login");
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   );

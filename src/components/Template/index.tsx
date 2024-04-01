@@ -48,7 +48,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   const [check, setCheck] = useState(false);
   const [path, setPath] = useState("");
   const pathname = usePathname();
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   const changeTheme = () => {
     if (theme === "light") {
@@ -64,7 +64,6 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
     setPath(pathname.replace("/", ""));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <main className="flex">
       <div className="w-2/5 lg:w-1/5 h-screen px-4 py-6 hidden lg:flex">
@@ -187,7 +186,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                   </MenubarItem>
                   <MenubarItem>Settings</MenubarItem>
                   <MenubarSeparator />
-                  <MenubarItem>Log out</MenubarItem>
+                  <MenubarItem onClick={logout}>Log out</MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
