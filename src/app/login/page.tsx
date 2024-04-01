@@ -2,9 +2,10 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { useRouter } from "next/navigation";
 import { LuAlertTriangle } from "react-icons/lu";
 import { LiaUser } from "react-icons/lia";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,7 +35,8 @@ export default function Login() {
   const [requiredSignIn, setRequiredSignIn] = useState(true);
   const [requiredSignUp, setRequiredSignUp] = useState(false);
   const { register, handleSubmit, setError, reset } = useForm<IData>();
-  const { signIn } = useContext(AuthContext);
+  const { signIn, isAuthenticated } = useContext(AuthContext);
+  const router = useRouter();
 
   async function handleSignIn(data: IData) {
     setLoading(true);
@@ -96,13 +98,20 @@ export default function Login() {
   }
 
   useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/home");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     setError("email", {
       types: {
         required: "This is required",
         minLength: "This is minLength",
       },
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const configForm = (value: string) => {
