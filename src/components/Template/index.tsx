@@ -36,7 +36,6 @@ import { H2 } from "@/components/Text/h2";
 import { Button } from "../ui/button";
 import { Span } from "../Text/span";
 import { AuthContext } from "@/Contexts/AuthContext";
-import { useToast } from "../ui/use-toast";
 import {
   Home,
   LineChart,
@@ -65,7 +64,6 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   const [path, setPath] = useState("");
   const pathname = usePathname();
   const { user, logout } = useContext(AuthContext);
-  const { toast } = useToast();
 
   const changeTheme = () => {
     if (theme === "light") {
