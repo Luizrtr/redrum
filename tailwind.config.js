@@ -40,6 +40,7 @@ module.exports = {
       green: "#13ce66",
       yellow: "#ffc82c",
       indigo: "#240d80",
+      muted: "#27272A",
       "gray-10": "#A1A1AA",
       "gray-50": "rgba(49, 49, 49, 0.6)",
       "gray-100": "#F8F9FA",
@@ -97,5 +98,12 @@ module.exports = {
       "50%": "50%",
       16: "4rem",
     },
+    // borderRadius: {
+    //   xl: "0.75rem",
+    //   lg: "var(--radius)",
+    //   md: "calc(var(--radius) - 2px)",
+    //   sm: "calc(var(--radius) - 4px)",
+    //   full: "9999px",
+    // },
   },
 };

@@ -13,7 +13,7 @@ export default function Page() {
     if (!isAuthenticated) {
       router.push("/login");
     } else {
-      router.push("/home");
+      router.push("/dashboard");
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -57,7 +57,7 @@ export function AuthProvider({ children }: any) {
       });
       api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
       setUser({ name: data.name, email: data.email, avatar: data.avatar });
-      await router.push("/home");
+      await router.push("/dashboard");
       toast({
         title: "Logged in user.",
         description: "You have successfully logged in!",

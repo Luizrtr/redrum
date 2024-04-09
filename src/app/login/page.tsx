@@ -102,7 +102,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/home");
+      router.push("/dashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
