@@ -88,7 +88,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <TooltipTrigger asChild>
                 <Link
                   href="/dashboard"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg dark:text-dark-muted-foreground text-white-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 >
                   <Home className="h-5 w-5" />
                   <span className="sr-only">Dashboard</span>
@@ -130,7 +130,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <TooltipTrigger asChild>
                 <Link
                   href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg dark:text-dark-muted-foreground text-white-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 >
                   <Users2 className="h-5 w-5" />
                   <span className="sr-only">Customers</span>
@@ -144,7 +144,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <TooltipTrigger asChild>
                 <Link
                   href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg dark:text-dark-muted-foreground text-white-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 >
                   <LineChart className="h-5 w-5" />
                   <span className="sr-only">Analytics</span>
@@ -160,7 +160,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <TooltipTrigger asChild>
                 <Link
                   href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg dark:text-dark-muted-foreground text-white-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 >
                   <Settings className="h-5 w-5" />
                   <span className="sr-only">Settings</span>

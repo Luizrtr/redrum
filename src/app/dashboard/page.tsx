@@ -201,7 +201,7 @@ function Page() {
             <h3 className="font-semibold leading-none tracking-tight">
               Recent Sales
             </h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm dark:text-dark-muted-foreground text-white-muted-foreground">
               You made 265 sales this month.
             </p>
           </div>

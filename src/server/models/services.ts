@@ -6,7 +6,16 @@ const servicesSchema = new Schema(
       type: String,
       required: true,
     },
-    valor: {
+    type_id: {
+      type: Schema.Types.ObjectId,
+      ref: "ServicesTypes",
+      required: true,
+    },
+    description: {
+      type: String,
+      required: false,
+    },
+    amount: {
       type: Number,
       required: true,
     },
