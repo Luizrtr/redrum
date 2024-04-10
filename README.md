@@ -1,17 +1,18 @@
 # Redrum APP 🎲
-> This is a repository for services management with dashboard realtime.
+> This repository is dedicated to service management with real-time dashboard functionality.
 
-## Getting Started🧑🏾‍💻
+## Getting Started 🧑🏾‍💻
 
-First, you need the ".env" file with environment variables:
+To get started, ensure you have set up the environment variables in the `.env` file:
 
 ```bash
-HOST=locahost:3000
+HOST=localhost:3000
+MONGODB=mongodb:your-database
 ```
+Replace your-database with the name of your MongoDB database.
 
-after, run the development server:
-
-```bash
+Once the environment variables are configured, proceed to run the development server:
+```
 npm run dev
 # or
 yarn dev
@@ -20,5 +21,13 @@ pnpm dev
 # or
 bun dev
 ```
+After launching the server, open your preferred web browser and navigate to the specified HOST to access the application.
 
-Open ```HOST``` with your browser to see the result.
+## Additional Information
+For further insights into the project and its features, please refer to the project's documentation or explore the source code.
+
+## Contributing
+Contributions are highly appreciated! Please adhere to the guidelines outlined in the CONTRIBUTING.md file.
+
+## License
+This project is licensed under the MIT License.
