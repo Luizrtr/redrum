@@ -1,9 +1,4 @@
-import { connectMongoDB } from "@/lib/mongodb";
-import User from "@/server/models/user";
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import { v4 as uuid } from "uuid";
-import jwt from "jsonwebtoken";
 
 type User = {
   name: string;

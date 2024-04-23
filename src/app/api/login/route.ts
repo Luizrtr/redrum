@@ -2,8 +2,7 @@ import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/server/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { v4 as uuid } from "uuid";
-import jwt from "jsonwebtoken";
+import { createJWT } from '@/lib/auth';
 
 type User = {
   name: string;
@@ -63,13 +62,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-const createJWT = (userData: User) => {
-  try {
-    const token = jwt.sign(userData, "token_redrum", { expiresIn: "1h" });
-    return token;
-  } catch (error) {
-    console.error("Erro ao criar o token JWT:", error);
-    return null;
-  }
-};
