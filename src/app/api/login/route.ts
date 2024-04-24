@@ -1,8 +1,8 @@
 import { connectMongoDB } from "@/lib/mongodb";
+import { createToken } from '@/lib/auth';
 import User from "@/server/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { createJWT } from '@/lib/auth';
 
 type User = {
   name: string;
@@ -40,11 +40,18 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const token = createJWT({
+    const token = await createToken({
       name: user.name,
       email: user.email,
       avatar: user.avatar,
     });
+
+    if (!token) {
+      return NextResponse.json(
+        { message: "Authentication error" },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json(
       {
