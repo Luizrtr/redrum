@@ -36,7 +36,7 @@ export async function recoverUserInformation(token: string) {
     };
 
     return user;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Token inválido:', error.message);
     return null;
   }

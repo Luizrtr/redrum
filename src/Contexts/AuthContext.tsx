@@ -34,7 +34,14 @@ export function AuthProvider({ children }: any) {
   const token = cookies["token_redrum"];
   const router = useRouter();
   const { toast } = useToast();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    if (token) {
+      recoverUserInformation(token)
+        .then(userFromToken => setUser(userFromToken)) 
+        .catch(error => console.error('Error retrieving user information:', error));
+    }
+    return null;
+  });  
   const isAuthenticated = !!user;
 
   useEffect(() => {
