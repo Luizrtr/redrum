@@ -1,7 +1,6 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
-import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { GetServerSideProps } from "next";
 
@@ -35,19 +34,17 @@ export function AuthProvider({ children }: any) {
   const token = cookies["token_redrum"];
   const router = useRouter();
   const { toast } = useToast();
-  const [user, setUser] = useState<User | null>(
-    token ? jwtDecode(token) : null
-  );
+  const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    if (token) {
-      recoverUserInformation(token).then((response) => {
-        setUser(response);
-      });
+    async function fetchUser() {
+      const userFromToken = await recoverUserInformation(token);
+      setUser(userFromToken);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    fetchUser();
+  }, [token]);
 
   async function signIn({ email, password }: SignInData) {
     await api.post("api/login", { email, password }).then(async (response) => {

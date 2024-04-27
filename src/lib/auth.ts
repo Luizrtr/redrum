@@ -27,8 +27,15 @@ export const createToken = async (userData: User) => {
 
 export async function recoverUserInformation(token: string) {
   try {
-    const { payload } = await jwtDecrypt(token, key);
-    return payload;
+    const { payload  }: any = await jwtDecrypt(token, key);
+    
+    const user: User = {
+      name: payload.name,
+      email: payload.email,
+      avatar: payload.avatar
+    };
+
+    return user;
   } catch (error) {
     console.error('Token inválido:', error.message);
     return null;
