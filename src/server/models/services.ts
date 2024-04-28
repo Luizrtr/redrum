@@ -6,7 +6,7 @@ const servicesSchema = new Schema(
       type: String,
       required: true,
     },
-    type_id: {
+    type: {
       type: Schema.Types.ObjectId,
       ref: "ServicesTypes",
       required: true,
