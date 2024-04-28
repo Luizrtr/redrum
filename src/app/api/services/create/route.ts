@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   
     const response = await Services.create({
       name,
-      type: typeService,
+      type_id: typeService,
       description,
       amount,
       is_enabled: true

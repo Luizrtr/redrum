@@ -25,6 +25,7 @@ type AuthContextType = {
   user: User | null;
   signIn: (data: SignInData) => Promise<any>;
   logout: () => void;
+  token: string | null;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -81,7 +82,7 @@ export function AuthProvider({ children }: any) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logout, token }}>
       {children}
     </AuthContext.Provider>
   );
@@ -89,7 +90,7 @@ export function AuthProvider({ children }: any) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ["token_redrum"]: token } = parseCookies(ctx);
-
+console.log("token: ", token);
   if (!token) {
     return {
       redirect: {

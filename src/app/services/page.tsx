@@ -49,20 +49,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DataTable } from "./data-table";
 import { Textarea } from "@/components/ui/textarea";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/Contexts/AuthContext";
+import axios from "axios";
 
-type Service = {
-  id: number;
+type IServices = {
+  _id: string;
   name: string;
-  type: string;
-  description?: string;
+  type_id: {
+    _id: string;
+    createdAt: string;
+    is_enabled: boolean;
+    name: string;
+  }
+  description: string;
   amount: number;
   is_enabled: boolean;
-  created: string;
+  createdAt: string;
 };
 
-const columns: ColumnDef<Service>[] = [
+const columns: ColumnDef<IServices>[] = [
   {
-    accessorKey: "id",
+    accessorKey: "_id",
     header: "ID",
   },
   {
@@ -74,10 +82,10 @@ const columns: ColumnDef<Service>[] = [
     header: "Description",
   },
   {
-    accessorKey: "created",
+    accessorKey: "createdAt",
     header: "Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("created"));
+      const date = new Date(row.getValue("createdAt"));
       const formattedDate = format(date, "dd/MM/yyyy");
 
       return <>{formattedDate}</>;
@@ -119,29 +127,34 @@ const columns: ColumnDef<Service>[] = [
   },
 ];
 
-const services: Service[] = [
-  {
-    id: 1,
-    name: "Service 1",
-    type: "Service Type 1",
-    description:
-      "Lorem ipsum is placeholder text commonly used in the graphic, print,",
-    created: "2023-06-24",
-    amount: 10,
-    is_enabled: true,
-  },
-  {
-    id: 2,
-    name: "Service 2",
-    type: "Service Type 2",
-    description:
-      "Lorem ipsum is placeholder text commonly used in the graphic, print,",
-    amount: 15,
-    created: "2023-06-24",
-    is_enabled: true,
-  },
-];
 function Page() {
+  const { token } = useContext(AuthContext);
+  const [services, setServices] = useState<IServices | any>({} as IServices);
+
+  useEffect(()=> {
+    const fetchServies = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: token
+          }
+        };  
+        const response = await axios.get('api/services/fetchAll', config);
+        
+        if (response) {
+          setServices(response.data);
+        }
+
+      } catch (error) {
+        console.error('Erro ao fazer consulta à API:', error);
+      }
+    }
+    
+    fetchServies();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  console.log(services);
   return (
     <Template slug="dashboard" title="Dashboard">
       <main className="grid flex-1 items-start gap-4 md:gap-8 mb-4">
