@@ -5,7 +5,9 @@ import { cookies } from "next/headers"
 const publicRoutes = ['/login', '/']
 const apiPublicRoutes = ['/api/login','/api/register']
 
-const verifyUserAPI = async (token: string | null | undefined, path: string) => {
+const verifyUserAPI = async (
+  token: string | null | undefined, path: string
+) => {
   const isPublicRoute = apiPublicRoutes.includes(path)
 
   if (isPublicRoute) {
@@ -24,7 +26,9 @@ const verifyUserAPI = async (token: string | null | undefined, path: string) => 
   return NextResponse.next()
 }
 
-const verifyUserClient = async (req: NextRequest, token: string | null | undefined, path: string) => {
+const verifyUserClient = async (
+  req: NextRequest, token: string | null | undefined, path: string
+) => {
   const isPublicRoute = publicRoutes.includes(path)
 
   if (isPublicRoute && !token) {
@@ -50,7 +54,8 @@ const verifyUserClient = async (req: NextRequest, token: string | null | undefin
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
   const isApiRoute = ['/api'].some(route => path.startsWith(route))
-  const token = isApiRoute ? req.headers.get("Authorization") : cookies().get('token_redrum')?.value
+  const token = isApiRoute ? req.headers.get("Authorization") 
+  : cookies().get('token_redrum')?.value
   
   if (isApiRoute) {
     return verifyUserAPI(token, path)
