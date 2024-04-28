@@ -90,7 +90,6 @@ export function AuthProvider({ children }: any) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ["token_redrum"]: token } = parseCookies(ctx);
-console.log("token: ", token);
   if (!token) {
     return {
       redirect: {

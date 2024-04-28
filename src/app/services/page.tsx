@@ -56,7 +56,7 @@ import axios from "axios";
 type IServices = {
   _id: string;
   name: string;
-  type_id: {
+  type: {
     _id: string;
     createdAt: string;
     is_enabled: boolean;
@@ -154,7 +154,6 @@ function Page() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log(services);
   return (
     <Template slug="dashboard" title="Dashboard">
       <main className="grid flex-1 items-start gap-4 md:gap-8 mb-4">

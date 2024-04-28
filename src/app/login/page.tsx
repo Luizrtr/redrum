@@ -101,13 +101,6 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/dashboard");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     setError("email", {
       types: {
         required: "This is required",

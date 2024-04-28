@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
 import Services from "@/server/models/services";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {    
     await connectMongoDB();
-    const services = await Services.find().populate('type_id').exec();
+    const services = await Services.find().populate('type').exec();
 
     return NextResponse.json(services, { status: 200 });
   } catch (error) {

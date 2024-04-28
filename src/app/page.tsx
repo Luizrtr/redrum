@@ -12,9 +12,7 @@ export default function Page() {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/login");
-    } else {
-      router.push("/dashboard");
-    }
+    } 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <main></main>;
