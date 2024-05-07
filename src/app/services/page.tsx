@@ -147,7 +147,7 @@ const columns: ColumnDef<IServices>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-red">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

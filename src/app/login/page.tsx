@@ -42,7 +42,7 @@ export default function Login() {
   const { toast } = useToast();
 
   async function handleSignIn(data: IData) {
-    setLoading(true);
+    setLoading(true)
     const response = await signIn({
       email: data.email ?? "",
       password: data.password ?? "",
@@ -55,13 +55,10 @@ export default function Login() {
       } else {
         return error.message;
       }
-    });
-
-    if (response) {
-      setAlertMessage(response.message);
-    }
-
-    setLoading(false);
+    })
+    
+    setAlertMessage(response.message)
+    setLoading(false)
   }
 
   async function handleSignUp(data: IData) {
