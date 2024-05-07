@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   
     const response = await Services.create({
       name,
-      type_id: typeService,
+      type: typeService,
       description,
       amount,
       is_enabled: true
@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
     if (!response) {
       return NextResponse.json({ message: "Service failed" }, { status: 400 });
     }
-  
-    return NextResponse.json({ message: "Service registered" }, { status: 201 });
+    const services = await Services.find().populate('type').exec();
+    return NextResponse.json(services, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { message: "An error occurred while registering the service." },

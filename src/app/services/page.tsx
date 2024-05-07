@@ -45,6 +45,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DataTable } from "./data-table";
@@ -52,6 +62,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Contexts/AuthContext";
 import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form";
+import { z } from "zod"
+import Link from "next/link";
+import { api } from "@/services/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type IServices = {
   _id: string;
@@ -67,6 +83,18 @@ type IServices = {
   is_enabled: boolean;
   createdAt: string;
 };
+
+type ITypes = {
+  _id: string;
+  name: string;
+  is_enabled: boolean;
+}
+type IDataServices = {
+  name: string;
+  amount: number;
+  description: string;
+  type: string;
+}
 
 const columns: ColumnDef<IServices>[] = [
   {
@@ -127,20 +155,76 @@ const columns: ColumnDef<IServices>[] = [
   },
 ];
 
+const FormSchema = z.object({
+  name: z
+    .string({
+      required_error: "Please select an email to display.",
+    }),
+  type: z
+    .string({
+      required_error: "Please select an name to display.",
+    }),
+  amount: z
+    .string({
+      required_error: "Please select an name to display.",
+    }),
+  description: z
+    .string({
+      required_error: "Please select an name to display.",
+    }),
+})
+
 function Page() {
+  const [loading, setLoading] = useState(false);
   const { token } = useContext(AuthContext);
   const [services, setServices] = useState<IServices | any>({} as IServices);
+  const [typesServices, setTypesServices] = useState<ITypes[]>();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  })
+  
+  async function onSubmit(service: z.infer<typeof FormSchema>) {
+    try {
+      setLoading(true)
+      await api.post(
+        `api/services/create`,
+        service,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      ).then(response => {
+        if (response) {
+          const { data } = response
+          setServices(data)
+          handleResetServices()
+        }
+      })
+      setLoading(true)
+    } catch (error) {
+      console.error("Error create service: ", error)
+      setLoading(true)
+    }
+  }
 
-  useEffect(()=> {
+  const handleResetServices = () => {
+    form.setValue('name', '');
+    form.setValue('type', '');
+    form.setValue('amount', '');
+    form.setValue('description', '');
+  }
+
+  useEffect(() => {
     const fetchServies = async () => {
       try {
         const config = {
           headers: {
             Authorization: token
           }
-        };  
+        };
         const response = await axios.get('api/services/fetchAll', config);
-        
+
         if (response) {
           setServices(response.data);
         }
@@ -149,9 +233,32 @@ function Page() {
         console.error('Erro ao fazer consulta à API:', error);
       }
     }
-    
+
     fetchServies();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    const fetchTypesServies = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: token
+          }
+        };
+        const response = await axios.get('api/typeServices/fetchAll', config);
+
+        if (response) {
+          setTypesServices(response.data);
+        }
+
+      } catch (error) {
+        console.error('Erro ao fazer consulta à API:', error);
+      }
+    }
+
+    fetchTypesServies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -177,52 +284,96 @@ function Page() {
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Create service</DialogTitle>
-                    <DialogDescription>
-                      Create your service here. Click save when finished.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="name" className="text-right">
-                        Service
-                      </Label>
-                      <Input id="name" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="type" className="text-right">
-                        Type
-                      </Label>
-                      <div className="col-span-3">
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="light">Light</SelectItem>
-                            <SelectItem value="dark">Dark</SelectItem>
-                            <SelectItem value="system">System</SelectItem>
-                          </SelectContent>
-                        </Select>
+                  {!loading ? (
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <DialogHeader>
+                          <DialogTitle>Create service</DialogTitle>
+                          <DialogDescription>
+                            Create your service here. Click save when finished.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                              <FormItem className="grid grid-cols-4 items-center gap-4">
+                                <FormLabel className="text-right">Service</FormLabel>
+                                <FormControl className="col-span-3">
+                                  <Input {...field} />
+                                </FormControl>
+                                {/* <FormMessage /> */}
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                              <FormItem className="grid grid-cols-4 items-center gap-4">
+                                <FormLabel className="text-right">Type</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl className="col-span-3">
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select a service type" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {typesServices && (
+                                      <>
+                                        {typesServices.map(e => (
+                                          <SelectItem key={e._id} value={e._id}>{e.name}</SelectItem>
+                                        ))}
+                                      </>
+                                    )}
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="amount"
+                            render={({ field }) => (
+                              <FormItem className="grid grid-cols-4 items-center gap-4">
+                                <FormLabel className="text-right">Amount</FormLabel>
+                                <FormControl className="col-span-3">
+                                  <Input type="number" {...field} />
+                                </FormControl>
+                                {/* <FormMessage /> */}
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                              <FormItem className="grid grid-cols-4 items-center gap-4">
+                                <FormLabel className="text-right">Description</FormLabel>
+                                <FormControl className="col-span-3">
+                                  <Textarea id="description" {...field} />
+                                </FormControl>
+                                {/* <FormMessage /> */}
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                        <DialogFooter>
+                          <Button type="submit">Submit</Button>
+                        </DialogFooter>
+                      </form>
+                    </Form>
+                  ) : (
+                    <div className="flex flex-col space-y-3 h-64 w-96">
+                      <Skeleton className="h-5/6 w-full rounded-xl" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-5/6" />
                       </div>
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="amout" className="text-right">
-                        Amout
-                      </Label>
-                      <Input id="amout" type="number" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="description" className="text-right">
-                        Description
-                      </Label>
-                      <Textarea id="description" className="col-span-3" />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button type="submit">Submit</Button>
-                  </DialogFooter>
+                  )}
+
                 </DialogContent>
               </Dialog>
             </div>
