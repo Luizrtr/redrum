@@ -1,6 +1,5 @@
 "use client";
 import Template from "@/components/Template";
-import RequireAuthentication from "@/lib/withAuth";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 
@@ -146,7 +145,9 @@ const columns: ColumnDef<IServices>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={()=> {
+              console.log('oi')
+            }}>Edit</DropdownMenuItem>
             <DropdownMenuItem className="hover:bg-red">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -394,7 +395,7 @@ function Page() {
               </CardContent>
               <CardFooter>
                 <div className="text-xs dark:text-dark-muted-foreground text-white-muted-foreground">
-                  Showing <strong>1-10</strong> of <strong>32</strong> products
+                  Showing <strong>1-10</strong> of <strong>{services.length}</strong> products
                 </div>
               </CardFooter>
             </Card>
@@ -405,4 +406,4 @@ function Page() {
   );
 }
 
-export default RequireAuthentication(Page);
+export default Page;

@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Span } from "@/components/Text/span";
 import { useTheme } from "next-themes";
 import { AuthContext } from "@/Contexts/AuthContext";
-import RequireAuthentication from "@/lib/withAuth";
 
 const data = [
   {
@@ -211,4 +210,4 @@ function Page() {
   );
 }
 
-export default RequireAuthentication(Page);
+export default Page;
