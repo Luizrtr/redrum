@@ -263,7 +263,7 @@ function Page() {
   }, [])
 
   return (
-    <Template slug="dashboard" title="Dashboard">
+    <Template slug="services" title="Services">
       <main className="grid flex-1 items-start gap-4 md:gap-8 mb-4">
         <Tabs defaultValue="all">
           <div className="flex items-center">
