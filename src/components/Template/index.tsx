@@ -74,7 +74,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
       setCheck(false);
     }
   };
-
+  
   useEffect(() => {
     setPath(pathname.replace("/", ""));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,7 +176,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
           <div className="hidden lg:flex flex-col gap-3">
             <div>
               <Span>Pages </Span>
-              <Label className="capitalize">/ {path} </Label>
+              <Label className="capitalize">/ {path.split("/")[0]} </Label>
             </div>
             <H2 className="capitalize">{title}</H2>
           </div>

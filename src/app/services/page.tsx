@@ -1,9 +1,14 @@
 "use client";
-import Template from "@/components/Template";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-
+import { useRouter } from "next/navigation";
+import axios from "axios";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form";
+import { z } from "zod"
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -53,20 +58,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-
+import Template from "@/components/Template";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DataTable } from "./data-table";
 import { Textarea } from "@/components/ui/textarea";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Contexts/AuthContext";
-import axios from "axios";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form";
-import { z } from "zod"
-import Link from "next/link";
 import { api } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
+
 
 type IServices = {
   _id: string;
@@ -95,66 +96,7 @@ type IDataServices = {
   type: string;
 }
 
-const columns: ColumnDef<IServices>[] = [
-  {
-    accessorKey: "_id",
-    header: "ID",
-  },
-  {
-    accessorKey: "name",
-    header: "Service",
-  },
-  {
-    accessorKey: "description",
-    header: "Description",
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Date",
-    cell: ({ row }) => {
-      const date = new Date(row.getValue("createdAt"));
-      const formattedDate = format(date, "dd/MM/yyyy");
 
-      return <>{formattedDate}</>;
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="sm" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={()=> {
-              console.log('oi')
-            }}>Edit</DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-red">Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
 
 const FormSchema = z.object({
   name: z
@@ -183,7 +125,8 @@ function Page() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
-  
+  const router = useRouter()
+
   async function onSubmit(service: z.infer<typeof FormSchema>) {
     try {
       setLoading(true)
@@ -261,6 +204,67 @@ function Page() {
     fetchTypesServies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const columns: ColumnDef<IServices>[] = [
+    {
+      accessorKey: "_id",
+      header: "ID",
+    },
+    {
+      accessorKey: "name",
+      header: "Service",
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Date",
+      cell: ({ row }) => {
+        const date = new Date(row.getValue("createdAt"));
+        const formattedDate = format(date, "dd/MM/yyyy");
+  
+        return <>{formattedDate}</>;
+      },
+    },
+    {
+      accessorKey: "amount",
+      header: () => <div className="text-right">Amount</div>,
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("amount"));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount);
+  
+        return <div className="text-right font-medium">{formatted}</div>;
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button aria-haspopup="true" size="sm" variant="ghost">
+                <MoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => {
+                router.push(`/services/${row.original._id}`)
+              }}>Edit</DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-red">Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
   return (
     <Template slug="services" title="Services">
