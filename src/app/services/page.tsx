@@ -145,10 +145,10 @@ function Page() {
           handleResetServices()
         }
       })
-      setLoading(true)
+      setLoading(false)
     } catch (error) {
       console.error("Error create service: ", error)
-      setLoading(true)
+      setLoading(false)
     }
   }
 
