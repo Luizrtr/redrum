@@ -117,12 +117,11 @@ export function DataTable<TData, TValue>({
             {Array.from({ length: table.getPageCount() }).map((_, index) => (
               <PaginationItem key={index}>
                 <PaginationLink
-                  href="#"
                   onClick={(e) => {
                     e.preventDefault();
                     table.setPageIndex(index);
                   }}
-                  isCurrent={table.getState().pagination.pageIndex === index}
+                  // isCurrent={table.getState().pagination.pageIndex === index}
                 >
                   {index + 1}
                 </PaginationLink>

@@ -121,6 +121,7 @@ function Page() {
   const [loading, setLoading] = useState(false);
   const { token } = useContext(AuthContext);
   const [services, setServices] = useState<IServices | any>({} as IServices);
+  const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices);
   const [typesServices, setTypesServices] = useState<ITypes[]>();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -224,7 +225,7 @@ function Page() {
       cell: ({ row }) => {
         const date = new Date(row.getValue("createdAt"));
         const formattedDate = format(date, "dd/MM/yyyy");
-  
+
         return <>{formattedDate}</>;
       },
     },
@@ -237,7 +238,7 @@ function Page() {
           style: "currency",
           currency: "USD",
         }).format(amount);
-  
+
         return <div className="text-right font-medium">{formatted}</div>;
       },
     },
@@ -273,10 +274,10 @@ function Page() {
           <div className="flex items-center">
             <TabsList>
               <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="active">Active</TabsTrigger>
-              <TabsTrigger value="archived" className="hidden sm:flex">
-                Archived
-              </TabsTrigger>
+              <TabsTrigger value="active" onClick={() => {
+                const enabledServices = services.filter((data: { is_enabled: any }) => data.is_enabled)
+                setActiveServices(enabledServices)
+              }}>Active</TabsTrigger>
             </TabsList>
             <div className="ml-auto flex items-center gap-2">
               <Dialog>
@@ -400,6 +401,27 @@ function Page() {
               <CardFooter>
                 <div className="text-xs dark:text-dark-muted-foreground text-white-muted-foreground">
                   Showing <strong>1-10</strong> of <strong>{services.length}</strong> products
+                </div>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="active">
+            <Card
+              x-chunk="dashboard-06-chunk-0"
+              className="dark:bg-black-50 bg-white"
+            >
+              <CardHeader>
+                <CardTitle>Products</CardTitle>
+                <CardDescription>
+                  Manage your products and view their sales performance.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <DataTable columns={columns} data={activeServices} />
+              </CardContent>
+              <CardFooter>
+                <div className="text-xs dark:text-dark-muted-foreground text-white-muted-foreground">
+                  Showing <strong>1-10</strong> of <strong>{activeServices.length}</strong> products
                 </div>
               </CardFooter>
             </Card>
