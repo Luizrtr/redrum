@@ -118,8 +118,8 @@ const FormSchema = z.object({
 })
 
 function Page() {
-  const [loading, setLoading] = useState(false);
-  const { token } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false)
+  const { token } = useContext(AuthContext)
   const [services, setServices] = useState<IServices | any>({} as IServices);
   const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices);
   const [typesServices, setTypesServices] = useState<ITypes[]>();
@@ -191,7 +191,7 @@ function Page() {
             Authorization: token
           }
         };
-        const response = await axios.get('api/typeServices/fetchAll', config);
+        const response = await api.get('api/typeServices/fetchAll', config);
 
         if (response) {
           setTypesServices(response.data);
