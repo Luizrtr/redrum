@@ -38,6 +38,21 @@ type ITypes = {
   is_enabled: boolean
 }
 
+type IServices = {
+  _id: string;
+  name: string;
+  type: {
+    _id: string;
+    createdAt: string;
+    is_enabled: boolean;
+    name: string;
+  }
+  description: string;
+  amount: number;
+  is_enabled: boolean;
+  createdAt: string;
+};
+
 const FormSchema = z.object({
   name: z
     .string({
@@ -58,8 +73,10 @@ const FormSchema = z.object({
 })
 
 
+
 function Page({ params }: { params: { slug: string } }) {
   const [loading, setLoading] = useState(false)
+  const [services, setServices] = useState<IServices>();
   const { token } = useContext(AuthContext)
   const [typesServices, setTypesServices] = useState<ITypes[]>()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -69,7 +86,7 @@ function Page({ params }: { params: { slug: string } }) {
   async function onSubmit(service: z.infer<typeof FormSchema>) {
     console.log(service)
   }
-  
+
   useEffect(() => {
     const fetchTypesServies = async () => {
       try {
@@ -91,10 +108,39 @@ function Page({ params }: { params: { slug: string } }) {
     fetchTypesServies()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+    useEffect(() => {
+    const fetchTypesServies = async () => {
+      try {
+       await api.put(
+        `${process.env.HOST}/api/services/fetchOne`,
+        {id: params.slug },
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      ).then(response => {
+        if (response) {
+          const { data } = response
+          setServices(data)
+
+          if (data?.type?._id) {
+            
+            form.setValue('type', data.type._id);
+          }
+        }
+      })
+      } catch (error) {
+        console.error('Erro ao fazer consulta à API:', error)
+      }
+    }
+
+    fetchTypesServies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <Template slug="services" title="Services">
-      <Card className="w-1/2 mx-auto">
+      <Card className="bg-white dark:bg-black lg:w-1/3 mx-auto">
         <div className="flex flex-col p-6 space-y-1">
           <H3>Edit service</H3>
           <Span>
@@ -112,7 +158,7 @@ function Page({ params }: { params: { slug: string } }) {
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Service</FormLabel>
                       <FormControl className="col-span-3">
-                        <Input {...field} />
+                        <Input {...field}  value={services?.name} />
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>
@@ -124,7 +170,7 @@ function Page({ params }: { params: { slug: string } }) {
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Type</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl className="col-span-3">
                           <SelectTrigger>
                             <SelectValue placeholder="Select a service type" />
@@ -145,12 +191,12 @@ function Page({ params }: { params: { slug: string } }) {
                 />
                 <FormField
                   control={form.control}
-                  name="amount"
+                  name="amount"                
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Amount</FormLabel>
                       <FormControl className="col-span-3">
-                        <Input type="number" {...field} />
+                        <Input type="number" {...field}  value={services?.amount}/>
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>
@@ -158,12 +204,12 @@ function Page({ params }: { params: { slug: string } }) {
                 />
                 <FormField
                   control={form.control}
-                  name="description"
+                  name="description"              
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Description</FormLabel>
                       <FormControl className="col-span-3">
-                        <Textarea id="description" {...field} />
+                        <Textarea id="description" {...field} value={services?.description}/>
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>
