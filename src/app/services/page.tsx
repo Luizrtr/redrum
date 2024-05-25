@@ -67,6 +67,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Contexts/AuthContext";
 import { api } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge"
 
 
 type IServices = {
@@ -213,7 +214,18 @@ function Page() {
     },
     {
       accessorKey: "name",
-      header: "Service",
+      header: "Service"
+    },
+    {
+      accessorKey: "type.name",
+      header: "Type",
+      cell: ({ row }) => {
+        return (
+          <Badge className="text-xs" variant="secondary">
+            { row.original.type?.name ?? 'NULL' }
+          </Badge>
+        )
+      }
     },
     {
       accessorKey: "description",

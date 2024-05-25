@@ -15,7 +15,7 @@ export async function PUT(req: NextRequest) {
     }
 
     await connectMongoDB();
-    const service = await Services.findById(id).populate('type').exec();
+    const service = await Services.findById(id).exec();
 
     if (!service) {
       return NextResponse.json(

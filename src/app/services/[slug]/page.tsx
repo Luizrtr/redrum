@@ -4,12 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import axios from "axios"
+import { useRouter } from "next/navigation"
 
+import { useToast } from "@/components/ui/use-toast";
 import Template from "@/components/Template"
 import { H3 } from "@/components/Text/h3"
 import { Span } from "@/components/Text/span"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Form,
   FormControl,
@@ -31,7 +34,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { api } from "@/services/api"
 
-
 type ITypes = {
   _id: string
   name: string
@@ -41,12 +43,7 @@ type ITypes = {
 type IServices = {
   _id: string;
   name: string;
-  type: {
-    _id: string;
-    createdAt: string;
-    is_enabled: boolean;
-    name: string;
-  }
+  type: string;
   description: string;
   amount: number;
   is_enabled: boolean;
@@ -54,37 +51,67 @@ type IServices = {
 };
 
 const FormSchema = z.object({
-  name: z
-    .string({
-      required_error: "Please select an email to display.",
-    }),
-  type: z
-    .string({
-      required_error: "Please select an name to display.",
-    }),
-  amount: z
-    .string({
-      required_error: "Please select an name to display.",
-    }),
-  description: z
-    .string({
-      required_error: "Please select an name to display.",
-    }),
+  name: z.string().optional(),
+  type_id: z.string().optional(),
+  amount: z.number().optional(),
+  description: z.string().optional(),
+  is_enabled: z.boolean().optional(),
 })
 
-
-
 function Page({ params }: { params: { slug: string } }) {
+  const router = useRouter()
+  const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState<IServices>();
   const { token } = useContext(AuthContext)
   const [typesServices, setTypesServices] = useState<ITypes[]>()
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(FormSchema)
   })
 
   async function onSubmit(service: z.infer<typeof FormSchema>) {
-    console.log(service)
+    const updatedFields: Partial<IServices> = {}
+
+    if (service.name !== services?.name) {
+      updatedFields.name = service.name
+    }
+    if (service.type_id !== services?.type) {
+      updatedFields.type = service.type_id
+    }
+    if (service.amount !== services?.amount) {
+      updatedFields.amount = service.amount
+    }
+    if (service.description !== services?.description) {
+      updatedFields.description = service.description
+    }
+    if (service.is_enabled !== services?.is_enabled) {
+      updatedFields.is_enabled = service.is_enabled
+    }
+
+    if (Object.keys(updatedFields).length > 0) {
+      try {
+        await api.put(`${process.env.HOST}/api/services/update`, {
+          id: services?._id,
+          name: service.name,
+          amount: service.amount,
+          type: service.type_id,
+          description: service.description,
+          is_enabled: service.is_enabled
+        }, {
+          headers: {
+            Authorization: token
+          }
+        })
+        toast({
+          title: "Service",
+          description: "Service updated successfully!",
+        });
+      } catch (error) {
+        console.error('Erro ao atualizar o serviço:', error)
+      }
+    } else {
+      console.log('No changes detected.')
+    }
   }
 
   useEffect(() => {
@@ -109,7 +136,7 @@ function Page({ params }: { params: { slug: string } }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
-    const fetchTypesServies = async () => {
+    const fetchService = async () => {
       try {
         await api.put(
           `${process.env.HOST}/api/services/fetchOne`,
@@ -124,10 +151,16 @@ function Page({ params }: { params: { slug: string } }) {
             const { data } = response
             setServices(data)
 
-            if (data?.type?._id) {
-
-              form.setValue('type', data.type._id);
+            if (data.type_id || data.type) {
+              form.setValue('type_id', data.type_id ?? data.type)
+            } else {
+              form.setValue('type_id', data.type_id ?? data.type)
             }
+
+            form.setValue('is_enabled', data.is_enabled)
+            form.setValue('name', data.name)
+            form.setValue('amount', data.amount)
+            form.setValue('description', data.description)
           }
         })
       } catch (error) {
@@ -135,16 +168,16 @@ function Page({ params }: { params: { slug: string } }) {
       }
     }
 
-    fetchTypesServies()
+    fetchService()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <Template slug="services" title="Services">
-      <Card className="bg-white dark:bg-black lg:w-1/3 mx-auto">
+      <Card className="bg-white dark:bg-black lg:w-1/2 w-full mx-auto">
         <div className="flex flex-col p-6 space-y-1">
           <H3>Edit service</H3>
           <Span>
-            Make changes to your service here. click sabe when you're done.
+            Make changes to your service here. click save when you're done.
           </Span>
         </div>
         <div className="p-6 pt-0">
@@ -158,7 +191,7 @@ function Page({ params }: { params: { slug: string } }) {
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Service</FormLabel>
                       <FormControl className="col-span-3">
-                        <Input {...field} value={services?.name} />
+                        <Input {...field} defaultValue={services?.name} />
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>
@@ -166,7 +199,7 @@ function Page({ params }: { params: { slug: string } }) {
                 />
                 <FormField
                   control={form.control}
-                  name="type"
+                  name="type_id"
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Type</FormLabel>
@@ -203,7 +236,7 @@ function Page({ params }: { params: { slug: string } }) {
                         <Input
                           type="number"
                           {...field}
-                          value={services?.amount}
+                          defaultValue={services?.amount}
                         />
                       </FormControl>
                       {/* <FormMessage /> */}
@@ -220,15 +253,31 @@ function Page({ params }: { params: { slug: string } }) {
                         <Textarea
                           id="description"
                           {...field}
-                          value={services?.description} />
+                          defaultValue={services?.description}
+                        />
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="is_enabled"
+                  render={({ field }) => (
+                    <FormItem className="grid grid-cols-4 items-center gap-4">
+                      <FormLabel className="text-right">Active</FormLabel>
+                      <FormControl className="col-span-3">
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
               <div className="flex gap-4 justify-end">
-                <Button variant="outline">Close</Button>
+                <Button type="button" variant="outline" onClick={() => router.push('/services')}>Close</Button>
                 <Button type="submit">Submit</Button>
               </div>
             </form>
