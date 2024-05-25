@@ -299,7 +299,7 @@ function Page() {
                             Create your service here. Click save when finished.
                           </DialogDescription>
                         </DialogHeader>
-                        <div className="grid gap-4 py-4">
+                        <div className="grid gap-4 py-4 select-none">
                           <FormField
                             control={form.control}
                             name="name"

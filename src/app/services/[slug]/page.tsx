@@ -90,16 +90,16 @@ function Page({ params }: { params: { slug: string } }) {
   useEffect(() => {
     const fetchTypesServies = async () => {
       try {
-       await axios.get(`${process.env.HOST}/api/typeServices/fetchAll`, { 
-        headers: {
-          Authorization: token
-        }
-       }).then(response => {
-        if (response) {
-          const { data } = response
-          setTypesServices(data)
-        }
-       })
+        await axios.get(`${process.env.HOST}/api/typeServices/fetchAll`, {
+          headers: {
+            Authorization: token
+          }
+        }).then(response => {
+          if (response) {
+            const { data } = response
+            setTypesServices(data)
+          }
+        })
       } catch (error) {
         console.error('Erro ao fazer consulta à API:', error)
       }
@@ -108,28 +108,28 @@ function Page({ params }: { params: { slug: string } }) {
     fetchTypesServies()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-    useEffect(() => {
+  useEffect(() => {
     const fetchTypesServies = async () => {
       try {
-       await api.put(
-        `${process.env.HOST}/api/services/fetchOne`,
-        {id: params.slug },
-        {
-          headers: {
-            Authorization: token
+        await api.put(
+          `${process.env.HOST}/api/services/fetchOne`,
+          { id: params.slug },
+          {
+            headers: {
+              Authorization: token
+            }
           }
-        }
-      ).then(response => {
-        if (response) {
-          const { data } = response
-          setServices(data)
+        ).then(response => {
+          if (response) {
+            const { data } = response
+            setServices(data)
 
-          if (data?.type?._id) {
-            
-            form.setValue('type', data.type._id);
+            if (data?.type?._id) {
+
+              form.setValue('type', data.type._id);
+            }
           }
-        }
-      })
+        })
       } catch (error) {
         console.error('Erro ao fazer consulta à API:', error)
       }
@@ -158,7 +158,7 @@ function Page({ params }: { params: { slug: string } }) {
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Service</FormLabel>
                       <FormControl className="col-span-3">
-                        <Input {...field}  value={services?.name} />
+                        <Input {...field} value={services?.name} />
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>
@@ -170,7 +170,9 @@ function Page({ params }: { params: { slug: string } }) {
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Type</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}>
                         <FormControl className="col-span-3">
                           <SelectTrigger>
                             <SelectValue placeholder="Select a service type" />
@@ -180,7 +182,9 @@ function Page({ params }: { params: { slug: string } }) {
                           {typesServices && (
                             <>
                               {typesServices.map(e => (
-                                <SelectItem key={e._id} value={e._id}>{e.name}</SelectItem>
+                                <SelectItem key={e._id} value={e._id}>
+                                  {e.name}
+                                </SelectItem>
                               ))}
                             </>
                           )}
@@ -191,12 +195,16 @@ function Page({ params }: { params: { slug: string } }) {
                 />
                 <FormField
                   control={form.control}
-                  name="amount"                
+                  name="amount"
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Amount</FormLabel>
                       <FormControl className="col-span-3">
-                        <Input type="number" {...field}  value={services?.amount}/>
+                        <Input
+                          type="number"
+                          {...field}
+                          value={services?.amount}
+                        />
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>
@@ -204,12 +212,15 @@ function Page({ params }: { params: { slug: string } }) {
                 />
                 <FormField
                   control={form.control}
-                  name="description"              
+                  name="description"
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Description</FormLabel>
                       <FormControl className="col-span-3">
-                        <Textarea id="description" {...field} value={services?.description}/>
+                        <Textarea
+                          id="description"
+                          {...field}
+                          value={services?.description} />
                       </FormControl>
                       {/* <FormMessage /> */}
                     </FormItem>

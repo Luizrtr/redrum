@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="rounded-md">
+      <div className="rounded-md select-none">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -108,7 +108,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4 select-none">
       <Pagination>
           <PaginationContent>
             <PaginationItem>
