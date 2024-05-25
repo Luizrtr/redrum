@@ -120,7 +120,7 @@ const FormSchema = z.object({
 
 function Page() {
   const [loading, setLoading] = useState(false)
-  const { token } = useContext(AuthContext)
+  const { token, limitCharacters } = useContext(AuthContext)
   const [services, setServices] = useState<IServices | any>({} as IServices);
   const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices);
   const [typesServices, setTypesServices] = useState<ITypes[]>();
@@ -230,6 +230,9 @@ function Page() {
     {
       accessorKey: "description",
       header: "Description",
+      cell: ({ row }) => {
+        return limitCharacters(row.original.description, 40)
+      }
     },
     {
       accessorKey: "createdAt",

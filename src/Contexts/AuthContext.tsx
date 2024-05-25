@@ -26,6 +26,7 @@ type AuthContextType = {
   signIn: (data: SignInData) => Promise<any>;
   logout: () => void;
   token: string | null;
+  limitCharacters: (text: string, maxLength: number) => string;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -81,8 +82,22 @@ export function AuthProvider({ children }: any) {
     });
   }
 
+  /**
+   * Limita o número de caracteres de uma string.
+   * 
+   * @param text - A string que será limitada.
+   * @param maxLength - O número máximo de caracteres permitidos.
+   * @returns A string limitada ao número máximo de caracteres especificado.
+   */
+  function limitCharacters(text: string, maxLength: number): string {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logout, token }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logout, token, limitCharacters }}>
       {children}
     </AuthContext.Provider>
   );
