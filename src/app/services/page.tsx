@@ -120,6 +120,8 @@ const FormSchema = z.object({
 
 function Page() {
   const [loading, setLoading] = useState(false)
+  const [removeService, setRemoveService] = useState(false)
+  const [removeServiceId, setRemoveServiceId] = useState<string>('')
   const { token, limitCharacters } = useContext(AuthContext)
   const [services, setServices] = useState<IServices | any>({} as IServices);
   const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices);
@@ -155,13 +157,14 @@ function Page() {
   }
 
   async function serviceDelete(id: string) {
+    setRemoveService(false)
     try {
       await api.delete(
         'api/services/delete',
         {
           data: { id },
           headers: {
-            Authorization: token,          
+            Authorization: token,
             'Content-Type': 'application/json',
           }
         }
@@ -175,7 +178,7 @@ function Page() {
       console.error("Error deleting service: ", error);
     }
   }
-  
+
 
   const handleResetServices = () => {
     form.setValue('name', '');
@@ -298,9 +301,11 @@ function Page() {
                 router.push(`/services/${row.original._id}`)
               }}>Edit</DropdownMenuItem>
               <DropdownMenuItem
-                className="hover:bg-red"
-                onClick={() => { 
-                  serviceDelete(row.original._id)
+                className="dark:hover:bg-red hover:bg-red"
+                onClick={() => {
+                  // serviceDelete(row.original._id)
+                  setRemoveService(true)
+                  setRemoveServiceId(row.original._id)
                 }}>
                 Delete
               </DropdownMenuItem>
@@ -471,6 +476,29 @@ function Page() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        <Dialog open={removeService} onOpenChange={setRemoveService}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Delete service</DialogTitle>
+              <DialogDescription>
+              Remove your service here.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-2 gap-4">
+              <Button size="sm" onClick={() => {
+                setRemoveService(false)
+              }}>
+                Close
+              </Button>
+              <Button size="sm" variant='remove' onClick={() => {
+                serviceDelete(removeServiceId)
+              }}>
+                Remove
+              </Button>
+            </div>            
+          </DialogContent>
+        </Dialog>
       </main>
     </Template>
   );
