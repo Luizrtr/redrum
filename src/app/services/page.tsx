@@ -154,6 +154,29 @@ function Page() {
     }
   }
 
+  async function serviceDelete(id: string) {
+    try {
+      await api.delete(
+        'api/services/delete',
+        {
+          data: { id },
+          headers: {
+            Authorization: token,          
+            'Content-Type': 'application/json',
+          }
+        }
+      ).then(response => {
+        if (response) {
+          const { data } = response;
+          setServices(data.services);
+        }
+      });
+    } catch (error) {
+      console.error("Error deleting service: ", error);
+    }
+  }
+  
+
   const handleResetServices = () => {
     form.setValue('name', '');
     form.setValue('type', '');
@@ -222,7 +245,7 @@ function Page() {
       cell: ({ row }) => {
         return (
           <Badge className="text-xs" variant="secondary">
-            { row.original.type?.name ?? 'NULL' }
+            {row.original.type?.name ?? 'NULL'}
           </Badge>
         )
       }
@@ -274,7 +297,13 @@ function Page() {
               <DropdownMenuItem onClick={() => {
                 router.push(`/services/${row.original._id}`)
               }}>Edit</DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-red">Delete</DropdownMenuItem>
+              <DropdownMenuItem
+                className="hover:bg-red"
+                onClick={() => { 
+                  serviceDelete(row.original._id)
+                }}>
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );

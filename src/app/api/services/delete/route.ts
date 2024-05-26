@@ -5,16 +5,16 @@ import Services from "@/server/models/services";
 export async function DELETE(req: NextRequest) {
   try {
     const { id } = await req.json();
-    
+
     if (!id) {
       return NextResponse.json(
         { message: "Service ID is required." },
         { status: 400 }
       );
     }
-  
+
     await connectMongoDB();
-    
+
     const service = await Services.findById(id);
     if (!service) {
       return NextResponse.json(
@@ -25,8 +25,12 @@ export async function DELETE(req: NextRequest) {
 
     await Services.deleteOne({ _id: id });
 
+    const services = await Services.find().populate('type').exec();
     return NextResponse.json(
-      { message: "Service deleted successfully." },
+      {
+        services,
+        message: "Service deleted successfully."
+      },
       { status: 200 }
     );
   } catch (error) {
