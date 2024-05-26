@@ -41,9 +41,10 @@ export async function PUT(req: NextRequest) {
     service.is_enabled = is_enabled;
 
     await service.save();
-
+    
+    const returnService = await Services.findById(id).exec();
     return NextResponse.json(
-      { message: "Service updated successfully." },
+      { returnService, message: "Service updated successfully." },
       { status: 200 }
     );
   } catch (error) {

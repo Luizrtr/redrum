@@ -53,7 +53,7 @@ type IServices = {
 const FormSchema = z.object({
   name: z.string().optional(),
   type_id: z.string().optional(),
-  amount: z.number().optional(),
+  amount: z.any(),
   description: z.string().optional(),
   is_enabled: z.boolean().optional(),
 })
@@ -78,7 +78,7 @@ function Page({ params }: { params: { slug: string } }) {
     if (service.type_id !== services?.type) {
       updatedFields.type = service.type_id
     }
-    if (service.amount !== services?.amount) {
+    if (parseInt(service.amount) !== services?.amount) {
       updatedFields.amount = service.amount
     }
     if (service.description !== services?.description) {
@@ -89,6 +89,7 @@ function Page({ params }: { params: { slug: string } }) {
     }
 
     if (Object.keys(updatedFields).length > 0) {
+      setLoading(true)
       try {
         await api.put(`${process.env.HOST}/api/services/update`, {
           id: services?._id,
@@ -101,14 +102,18 @@ function Page({ params }: { params: { slug: string } }) {
           headers: {
             Authorization: token
           }
+        }).then(response => {
+          const { data } = response
+          setServices(data.returnService)
         })
         toast({
           title: "Service",
           description: "Service updated successfully!",
-        });
+        });        
       } catch (error) {
         console.error('Erro ao atualizar o serviço:', error)
       }
+      setLoading(false)
     } else {
       console.log('No changes detected.')
     }
@@ -234,12 +239,12 @@ function Page({ params }: { params: { slug: string } }) {
                       <FormLabel className="text-right">Amount</FormLabel>
                       <FormControl className="col-span-3">
                         <Input
+                          id="amount"
                           type="number"
                           {...field}
-                          defaultValue={services?.amount}
+                          onChange={(e) => field.onChange(e.target.value)}
                         />
                       </FormControl>
-                      {/* <FormMessage /> */}
                     </FormItem>
                   )}
                 />
