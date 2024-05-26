@@ -35,7 +35,7 @@ export async function PUT(req: NextRequest) {
     }
 
     service.name = name;
-    service.type_id = typeService._id;
+    service.type = typeService._id;
     service.amount = amount;
     service.description = description;
     service.is_enabled = is_enabled;

@@ -52,7 +52,7 @@ type IServices = {
 
 const FormSchema = z.object({
   name: z.string().optional(),
-  type_id: z.string().optional(),
+  type: z.string().optional(),
   amount: z.any(),
   description: z.string().optional(),
   is_enabled: z.boolean().optional(),
@@ -71,12 +71,12 @@ function Page({ params }: { params: { slug: string } }) {
 
   async function onSubmit(service: z.infer<typeof FormSchema>) {
     const updatedFields: Partial<IServices> = {}
-
+console.log(service.type, services?.type)
     if (service.name !== services?.name) {
       updatedFields.name = service.name
     }
-    if (service.type_id !== services?.type) {
-      updatedFields.type = service.type_id
+    if (service.type !== services?.type) {
+      updatedFields.type = service.type
     }
     if (parseInt(service.amount) !== services?.amount) {
       updatedFields.amount = service.amount
@@ -95,7 +95,7 @@ function Page({ params }: { params: { slug: string } }) {
           id: services?._id,
           name: service.name,
           amount: service.amount,
-          type: service.type_id,
+          type: service.type,
           description: service.description,
           is_enabled: service.is_enabled
         }, {
@@ -104,6 +104,7 @@ function Page({ params }: { params: { slug: string } }) {
           }
         }).then(response => {
           const { data } = response
+          console.log(data.returnService)
           setServices(data.returnService)
         })
         toast({
@@ -157,9 +158,9 @@ function Page({ params }: { params: { slug: string } }) {
             setServices(data)
 
             if (data.type_id || data.type) {
-              form.setValue('type_id', data.type_id ?? data.type)
+              form.setValue('type', data.type_id ?? data.type)
             } else {
-              form.setValue('type_id', data.type_id ?? data.type)
+              form.setValue('type', data.type_id ?? data.type)
             }
 
             form.setValue('is_enabled', data.is_enabled)
@@ -204,7 +205,7 @@ function Page({ params }: { params: { slug: string } }) {
                 />
                 <FormField
                   control={form.control}
-                  name="type_id"
+                  name="type"
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Type</FormLabel>
