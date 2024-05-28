@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MdArrowBackIos } from "react-icons/md"
+import { MdKeyboardArrowLeft  } from "react-icons/md"
 
 import { AuthContext } from "@/Contexts/AuthContext"
 import Template from "@/components/Template"
@@ -29,7 +29,6 @@ import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { H1 } from "@/components/Text/h1"
 import axios from "axios"
 
 type IServices = {
@@ -61,9 +60,9 @@ const FormSchema = z.object({
       required_error: "Please select an email to display.",
     }),
   service: z
-  .string({
-    required_error: "Please select an email to display.",
-  }),
+    .string({
+      required_error: "Please select an email to display.",
+    }),
 })
 
 function Page() {
@@ -86,9 +85,9 @@ function Page() {
           }
         }
         await axios.get(
-          `${process.env.HOST}/api/services/fetchAll`, 
+          `${process.env.HOST}/api/services/fetchAll`,
           config).then(response => {
-            const { data } = response          
+            const { data } = response
             const enabledServices = data.filter(
               (data: { is_enabled: any }) => data.is_enabled)
             setServices(enabledServices)
@@ -111,7 +110,7 @@ function Page() {
             <div className="flex justify-between gap-4 pb-4">
               <div className="flex flex-row gap-4 items-center">
                 <Button className="border dark:border-gray-50 dark:bg-black-50 dark:text-white bg-white text-black border-white-50 h-7 w-7 p-0 justify-center items-center dark:hover:bg-gray-50/50 hover:bg-white-50">
-                  <MdArrowBackIos />
+                  <MdKeyboardArrowLeft size={24} />
                 </Button>
                 <H3>Registration form</H3>
               </div>
@@ -125,7 +124,7 @@ function Page() {
               </div>
             </div>
             <div className="flex gap-8">
-              <div className="w-3/5">
+              <div className="w-3/5 flex flex-col gap-8">
                 <Card>
                   <div className="flex flex-col p-6 space-y-1">
                     <H3>Client Details</H3>
