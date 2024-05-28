@@ -101,14 +101,14 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href="/sales"
                   className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8"
                 >
                   <ShoppingCart className="h-5 w-5" />
-                  <span className="sr-only">Orders</span>
+                  <span className="sr-only">Sales</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Orders</TooltipContent>
+              <TooltipContent side="right">Sales</TooltipContent>
             </Tooltip>
           </TooltipProvider>
           <TooltipProvider>
