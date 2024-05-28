@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { ColumnDef } from "@tanstack/react-table"
+import { format } from "date-fns"
+import { useRouter } from "next/navigation"
+import axios from "axios"
+import { MoreHorizontal, PlusCircle } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 import { z } from "zod"
-import Link from "next/link";
+import Link from "next/link"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -18,20 +18,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabsServices";
+} from "@/components/ui/tabsServices"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 import {
   Dialog,
   DialogContent,
@@ -40,14 +40,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui/dialog"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select"
 
 import {
   Form,
@@ -58,43 +58,43 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import Template from "@/components/Template";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { DataTable } from "./data-table";
-import { Textarea } from "@/components/ui/textarea";
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "@/Contexts/AuthContext";
-import { api } from "@/services/api";
-import { Skeleton } from "@/components/ui/skeleton";
+import Template from "@/components/Template"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { DataTable } from "./data-table"
+import { Textarea } from "@/components/ui/textarea"
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "@/Contexts/AuthContext"
+import { api } from "@/services/api"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 
 
 type IServices = {
-  _id: string;
-  name: string;
+  _id: string
+  name: string
   type: {
-    _id: string;
-    createdAt: string;
-    is_enabled: boolean;
-    name: string;
+    _id: string
+    createdAt: string
+    is_enabled: boolean
+    name: string
   }
-  description: string;
-  amount: number;
-  is_enabled: boolean;
-  createdAt: string;
-};
+  description: string
+  amount: number
+  is_enabled: boolean
+  createdAt: string
+}
 
 type ITypes = {
-  _id: string;
-  name: string;
-  is_enabled: boolean;
+  _id: string
+  name: string
+  is_enabled: boolean
 }
 type IDataServices = {
-  name: string;
-  amount: number;
-  description: string;
-  type: string;
+  name: string
+  amount: number
+  description: string
+  type: string
 }
 
 
@@ -123,9 +123,9 @@ function Page() {
   const [removeService, setRemoveService] = useState(false)
   const [removeServiceId, setRemoveServiceId] = useState<string>('')
   const { token, limitCharacters } = useContext(AuthContext)
-  const [services, setServices] = useState<IServices | any>({} as IServices);
-  const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices);
-  const [typesServices, setTypesServices] = useState<ITypes[]>();
+  const [services, setServices] = useState<IServices | any>({} as IServices)
+  const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices)
+  const [typesServices, setTypesServices] = useState<ITypes[]>()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
@@ -170,21 +170,21 @@ function Page() {
         }
       ).then(response => {
         if (response) {
-          const { data } = response;
-          setServices(data.services);
+          const { data } = response
+          setServices(data.services)
         }
-      });
+      })
     } catch (error) {
-      console.error("Error deleting service: ", error);
+      console.error("Error deleting service: ", error)
     }
   }
 
 
   const handleResetServices = () => {
-    form.setValue('name', '');
-    form.setValue('type', '');
-    form.setValue('amount', '');
-    form.setValue('description', '');
+    form.setValue('name', '')
+    form.setValue('type', '')
+    form.setValue('amount', '')
+    form.setValue('description', '')
   }
 
   useEffect(() => {
@@ -194,19 +194,19 @@ function Page() {
           headers: {
             Authorization: token
           }
-        };
-        const response = await axios.get('api/services/fetchAll', config);
+        }
+        const response = await axios.get('api/services/fetchAll', config)
 
         if (response) {
-          setServices(response.data);
+          setServices(response.data)
         }
 
       } catch (error) {
-        console.error('Erro ao fazer consulta à API:', error);
+        console.error('Erro ao fazer consulta à API:', error)
       }
     }
 
-    fetchServies();
+    fetchServies()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -217,19 +217,19 @@ function Page() {
           headers: {
             Authorization: token
           }
-        };
-        const response = await api.get('api/typeServices/fetchAll', config);
+        }
+        const response = await api.get('api/typeServices/fetchAll', config)
 
         if (response) {
-          setTypesServices(response.data);
+          setTypesServices(response.data)
         }
 
       } catch (error) {
-        console.error('Erro ao fazer consulta à API:', error);
+        console.error('Erro ao fazer consulta à API:', error)
       }
     }
 
-    fetchTypesServies();
+    fetchTypesServies()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -264,23 +264,23 @@ function Page() {
       accessorKey: "createdAt",
       header: "Date",
       cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        const formattedDate = format(date, "dd/MM/yyyy");
+        const date = new Date(row.getValue("createdAt"))
+        const formattedDate = format(date, "dd/MM/yyyy")
 
-        return <>{formattedDate}</>;
+        return <>{formattedDate}</>
       },
     },
     {
       accessorKey: "amount",
       header: () => <div className="text-right">Amount</div>,
       cell: ({ row }) => {
-        const amount = parseFloat(row.getValue("amount"));
+        const amount = parseFloat(row.getValue("amount"))
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
-        }).format(amount);
+        }).format(amount)
 
-        return <div className="text-right font-medium">{formatted}</div>;
+        return <div className="text-right font-medium">{formatted}</div>
       },
     },
     {
@@ -311,10 +311,10 @@ function Page() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        );
+        )
       },
     },
-  ];
+  ]
 
   return (
     <Template slug="services" title="Services">
@@ -486,12 +486,12 @@ function Page() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-2 gap-4">
-              <Button size="sm" onClick={() => {
+              <Button variant="secondary" size="sm" onClick={() => {
                 setRemoveService(false)
               }}>
                 Close
               </Button>
-              <Button size="sm" variant='remove' onClick={() => {
+              <Button size="sm" onClick={() => {
                 serviceDelete(removeServiceId)
               }}>
                 Remove
@@ -501,7 +501,7 @@ function Page() {
         </Dialog>
       </main>
     </Template>
-  );
+  )
 }
 
-export default Page;
+export default Page
