@@ -2,18 +2,26 @@ import mongoose, { Schema, models } from "mongoose";
 
 const salesSchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    service_id: {
+    service: {
       type: Schema.Types.ObjectId,
       ref: "Services",
       required: true,
     },
     name_client: {
       type: String,
+      required: true,
+    },
+    email_client: {
+      type: String,
+      required: true,
+    },
+    description_client: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: Schema.Types.ObjectId,
+      ref: "SalesStatus",
       required: true,
     },
   },

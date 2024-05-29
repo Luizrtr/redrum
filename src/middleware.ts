@@ -56,7 +56,7 @@ export async function middleware(req: NextRequest) {
   const isApiRoute = ['/api'].some(route => path.startsWith(route))
   const token = isApiRoute ? req.headers.get("Authorization") 
   : cookies().get('token_redrum')?.value
-  
+
   if (isApiRoute) {
     return verifyUserAPI(token, path)
   } else {
@@ -66,6 +66,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)'],
+    '/((?!_next/static|_next/image|favicon.ico|api/public|/login|/register).*)',
+  ],
 }
 
