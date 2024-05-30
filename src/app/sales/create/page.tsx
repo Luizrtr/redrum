@@ -30,6 +30,9 @@ import { useForm } from "react-hook-form"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import axios from "axios"
+import { api } from "@/services/api"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/components/ui/use-toast"
 
 type IServices = {
   _id: string
@@ -67,13 +70,47 @@ const FormSchema = z.object({
 
 function Page() {
   const { token } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
   const [services, setServices] = useState<IServices[]>()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
+  const router = useRouter()
+  const { toast } = useToast()
+  
+  const handleResetServices = () => {
+    form.setValue('nameCliente', '')
+    form.setValue('emailCliente', '')
+    form.setValue('descriptionCliente', '')
+    form.setValue('service', '')
+  }
 
   async function onSubmit(sale: z.infer<typeof FormSchema>) {
-    console.log(sale)
+    try {
+      setLoading(true)
+      await api.post(
+        `api/sales/create`,
+        sale,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      ).then(response => {
+        if (response.status === 200) {   
+          handleResetServices()
+          router.push('/sales')
+          toast({
+            title: "Sales",
+            description: "You have successfully created the sale!",
+          });
+        }
+      })
+      setLoading(false)
+    } catch (error) {
+      console.error("Error create service: ", error)
+      setLoading(false)
+    }
   }
 
   useEffect(() => {

@@ -8,13 +8,13 @@ import SalesStatus from "@/server/models/salesStatus";
 export async function POST(req: NextRequest) {
   try {
     const { 
-      nameClient, 
-      emailClient, 
-      descriptionClient, 
+      nameCliente, 
+      emailCliente, 
+      descriptionCliente, 
       service 
     } = await req.json();
 
-    if (!nameClient || !emailClient || !descriptionClient || !service) {
+    if (!nameCliente || !emailCliente || !descriptionCliente || !service) {
       return NextResponse.json(
         { message: "Failed data sent." },
         { status: 400 }
@@ -34,9 +34,9 @@ export async function POST(req: NextRequest) {
     const status = await SalesStatus.findOne({ id: 0 }).select("_id");
 
     const response = await Sales.create({
-      name_client: nameClient,
-      email_client: emailClient,
-      description_client: descriptionClient,
+      name_client: nameCliente,
+      email_client: emailCliente,
+      description_client: descriptionCliente,
       status,
       service
     });
