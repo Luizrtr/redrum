@@ -145,7 +145,7 @@ function Page({ params }: { params: { slug: string } }) {
     const fetchService = async () => {
       try {
         await api.put(
-          `${process.env.HOST}/api/services/fetchOne`,
+          c
           { id: params.slug },
           {
             headers: {
