@@ -126,14 +126,14 @@ function Page() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem onClick={() => {
-                router.push(`/services/${row.original._id}`)
+                router.push(`/sales/${row.original._id}`)
               }}>Edit</DropdownMenuItem>
               <DropdownMenuItem
                 className="dark:hover:bg-red hover:bg-red"
                 onClick={() => {
                   
                 }}>
-                Delete
+                Cancel
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
