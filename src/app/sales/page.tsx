@@ -171,7 +171,7 @@ function Page() {
         className="dark:bg-black-50 bg-white"
       >
         <CardHeader>
-          <CardTitle>Products</CardTitle>
+          <CardTitle>Sales</CardTitle>
           <CardDescription>
             Manage your products and view their sales performance.
           </CardDescription>
