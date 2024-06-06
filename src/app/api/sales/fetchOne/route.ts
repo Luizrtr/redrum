@@ -17,7 +17,6 @@ export async function PUT(req: NextRequest) {
     await connectMongoDB();
     const sale = await Sales
       .findById(id)
-      .populate('service')
       .populate('status')
       .exec();
 
