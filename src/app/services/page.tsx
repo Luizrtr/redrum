@@ -247,9 +247,10 @@ function Page() {
       header: "Type",
       cell: ({ row }) => {
         return (
-          <Badge className="text-xs" variant="secondary">
-            {row.original.type?.name ?? 'NULL'}
-          </Badge>
+            <Badge className="text-xs" variant="secondary">
+              {row.original.type?.name ?? 'NULL'}
+            </Badge>
+
         )
       }
     },
@@ -257,7 +258,7 @@ function Page() {
       accessorKey: "description",
       header: "Description",
       cell: ({ row }) => {
-        return limitCharacters(row.original.description, 40)
+        return limitCharacters(row.original.description, 30)
       }
     },
     {
