@@ -62,6 +62,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   const { theme, setTheme } = useTheme();
   const [check, setCheck] = useState(false);
   const [path, setPath] = useState("");
+  const [active] = useState<string>("bg-dark dark:bg-white text-white dark:text-black text-md");
   const pathname = usePathname();
   const { user, logout } = useContext(AuthContext);
 
@@ -74,7 +75,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
       setCheck(false);
     }
   };
-  
+
   useEffect(() => {
     setPath(pathname.replace("/", ""));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -195,34 +196,36 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                     href="/dashboard"
                     className={
                       slug === "dashboard"
-                        ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
-                        : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
+                        ? `flex gap-4 p-4 rounded-lg ${active}`
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-dark-muted active:bg-white-muted"
                     }
                   >
-                    <RxDashboard size={26} />
-                    <Label className="text-md">Dashboard</Label>
+                    <RxDashboard size={26}  className={slug === "dashboard" ? `${active}` : ""} />
+                    <Label className={slug === "dashboard" ? `${active}` : "text-black"}>
+                      Dashboard
+                      </Label>
                   </Link>
                   <Link
-                    href="/table"
+                    href="/sales"
                     className={
-                      slug === "table"
-                        ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
-                        : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
+                      slug === "sales"
+                        ? `flex gap-4 p-4 rounded-lg ${active}`
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-dark-muted active:bg-white-muted"
                     }
                   >
-                    <FiTable size={26} />
-                    <Label className="text-md">Table</Label>
-                  </Link>
+                    <ShoppingCart size={26} className={slug === "sales" ? `${active}` : ""}/>
+                    <Label className={slug === "sales" ? `${active}` : "text-black"}>Sales</Label>
+                  </Link>                  
                   <Link
-                    href="/settings"
+                    href="/services"
                     className={
-                      slug === "settings"
-                        ? "flex gap-4 p-4 rounded-lg bg-black-50/50 dark:bg-white-50/50"
-                        : "flex gap-4 p-4 rounded-lg active:dark:bg-white-50/50 active:bg-black-50/50"
+                      slug === "services"
+                        ? `flex gap-4 p-4 rounded-lg ${active}`
+                        : "flex gap-4 p-4 rounded-lg active:dark:bg-dark-muted active:bg-white-muted"
                     }
                   >
-                    <MdOutlineSettings size={26} />
-                    <Label className="text-md">Settings</Label>
+                    <Package size={26} className={slug === "services" ? `${active}` : ""}/>
+                    <Label className={slug === "services" ? `${active}` : "text-black"}>Services</Label>
                   </Link>
                 </div>
                 <DrawerFooter>
