@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    HOST: process.env.HOST,    
+    HOST: process.env.HOST,
+    MONGODB: process.env.MONGODB,
   }
 };
 

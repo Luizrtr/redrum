@@ -71,7 +71,7 @@ function Page({ params }: { params: { slug: string } }) {
 
   async function onSubmit(service: z.infer<typeof FormSchema>) {
     const updatedFields: Partial<IServices> = {}
-console.log(service.type, services?.type)
+
     if (service.name !== services?.name) {
       updatedFields.name = service.name
     }
