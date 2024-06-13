@@ -103,7 +103,7 @@ function Page() {
           toast({
             title: "Sales",
             description: "You have successfully created the sale!",
-          });
+          })
         }
       })
       setLoading(false)

@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server"
 
-import { connectMongoDB } from "@/lib/mongodb";
-import ServicesTypes from "@/server/models/servicesTypes";
-import Services from "@/server/models/services";
+import { connectMongoDB } from "@/lib/mongodb"
+import ServicesTypes from "@/server/models/servicesTypes"
+import Services from "@/server/models/services"
 
 export async function PUT(req: NextRequest) {
   try {
@@ -13,44 +13,44 @@ export async function PUT(req: NextRequest) {
       amount, 
       description, 
       is_enabled 
-    } = await req.json();
+    } = await req.json()
     
     if (!id) {
       return NextResponse.json(
         { message: "Failed data sent." },
         { status: 400 }
-      );
+      )
     }
   
-    await connectMongoDB();
+    await connectMongoDB()
     const typeService = await ServicesTypes.findOne(
-      { _id: type }).select("_id");
-    const service = await Services.findOne({ _id: id });
+      { _id: type }).select("_id")
+    const service = await Services.findOne({ _id: id })
    
     if (!typeService && !service) {
       return NextResponse.json(
         { message: "The type of service does not exist." },
         { status: 202 }
-      );
+      )
     }
 
-    service.name = name;
-    service.type = typeService._id;
-    service.amount = amount;
-    service.description = description;
-    service.is_enabled = is_enabled;
+    service.name = name
+    service.type = typeService._id
+    service.amount = amount
+    service.description = description
+    service.is_enabled = is_enabled
 
-    await service.save();
+    await service.save()
     
-    const returnService = await Services.findById(id).exec();
+    const returnService = await Services.findById(id).exec()
     return NextResponse.json(
       { returnService, message: "Service updated successfully." },
       { status: 200 }
-    );
+    )
   } catch (error) {
     return NextResponse.json(
       { message: "An error occurred while registering the service." },
       { status: 500 }
-    );
+    )
   }
 }

@@ -19,7 +19,7 @@ const labelVariants = cva(
       variant: "default"
     }
   }
-);
+)
 
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,

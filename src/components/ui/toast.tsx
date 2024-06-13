@@ -36,7 +36,7 @@ const toastVariants = cva(
       variant: "default",
     },
   }
-);
+)
 
 const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
@@ -49,9 +49,9 @@ const Toast = React.forwardRef<
       className={cn(toastVariants({ variant }), className)}
       {...props}
     />
-  );
-});
-Toast.displayName = ToastPrimitives.Root.displayName;
+  )
+})
+Toast.displayName = ToastPrimitives.Root.displayName
 
 const ToastAction = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Action>,
@@ -65,7 +65,7 @@ const ToastAction = React.forwardRef<
     )}
     {...props}
   />
-));
+))
 ToastAction.displayName = ToastPrimitives.Action.displayName
 
 const ToastClose = React.forwardRef<

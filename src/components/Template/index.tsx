@@ -1,13 +1,13 @@
-"use client";
-import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { NextPage } from "next";
-import { useTheme } from "next-themes";
-import { RxDashboard } from "react-icons/rx";
-import { FiTable } from "react-icons/fi";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { MdOutlineSettings } from "react-icons/md";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+"use client"
+import React, { ReactNode, useContext, useEffect, useState } from "react"
+import { NextPage } from "next"
+import { useTheme } from "next-themes"
+import { RxDashboard } from "react-icons/rx"
+import { FiTable } from "react-icons/fi"
+import { GiHamburgerMenu } from "react-icons/gi"
+import { MdOutlineSettings } from "react-icons/md"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 import {
   Menubar,
@@ -17,7 +17,7 @@ import {
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
-} from "@/components/ui/menubar";
+} from "@/components/ui/menubar"
 import {
   Drawer,
   DrawerClose,
@@ -26,16 +26,16 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
+} from "@/components/ui/drawer"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
-import { H2 } from "@/components/Text/h2";
-import { Button } from "../ui/button";
-import { Span } from "../Text/span";
-import { AuthContext } from "@/Contexts/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Switch } from "@/components/ui/switch"
+import { Separator } from "@/components/ui/separator"
+import { Label } from "@/components/ui/label"
+import { H2 } from "@/components/Text/h2"
+import { Button } from "../ui/button"
+import { Span } from "../Text/span"
+import { AuthContext } from "@/Contexts/AuthContext"
 import {
   Home,
   LineChart,
@@ -44,42 +44,42 @@ import {
   Settings,
   ShoppingCart,
   Users2,
-} from "lucide-react";
+} from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui/tooltip"
 
 interface Iprops {
-  title: string;
-  children: ReactNode;
-  slug: string;
+  title: string
+  children: ReactNode
+  slug: string
 }
 
 const Template: NextPage<Iprops> = ({ children, title, slug }) => {
-  const { theme, setTheme } = useTheme();
-  const [check, setCheck] = useState(false);
-  const [path, setPath] = useState("");
-  const [active] = useState<string>("bg-dark dark:bg-white text-white dark:text-black text-md");
-  const pathname = usePathname();
-  const { user, logout } = useContext(AuthContext);
+  const { theme, setTheme } = useTheme()
+  const [check, setCheck] = useState(false)
+  const [path, setPath] = useState("")
+  const [active] = useState<string>("bg-dark dark:bg-white text-white dark:text-black text-md")
+  const pathname = usePathname()
+  const { user, logout } = useContext(AuthContext)
 
   const changeTheme = () => {
     if (theme === "light") {
-      setTheme("dark");
-      setCheck(true);
+      setTheme("dark")
+      setCheck(true)
     } else {
-      setTheme("light");
-      setCheck(false);
+      setTheme("light")
+      setCheck(false)
     }
-  };
+  }
 
   useEffect(() => {
-    setPath(pathname.replace("/", ""));
+    setPath(pathname.replace("/", ""))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
   return (
     <main className="flex">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r dark:border-gray-50 border-white-50 xl:flex">
@@ -262,7 +262,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
         <div className="mt-4 px-4 lg:px-24">{children}</div>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default Template;
+export default Template

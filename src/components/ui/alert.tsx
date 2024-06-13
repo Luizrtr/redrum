@@ -20,7 +20,7 @@ const alertVariants = cva(
       variant: "default",
     },
   }
-);
+)
 
 const Alert = React.forwardRef<
   HTMLDivElement,

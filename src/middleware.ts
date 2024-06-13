@@ -15,12 +15,12 @@ const verifyUserAPI = async (
   }
 
   if (!token) {
-    return NextResponse.json({ message: "Token not found" }, { status: 401 });
+    return NextResponse.json({ message: "Token not found" }, { status: 401 })
   }
 
-  const verify = await recoverUserInformation(token);
+  const verify = await recoverUserInformation(token)
   if (!verify) {
-    return NextResponse.json({ message: "Not authorized" }, { status: 401 });
+    return NextResponse.json({ message: "Not authorized" }, { status: 401 })
   }
 
   return NextResponse.next()
@@ -39,7 +39,7 @@ const verifyUserClient = async (
     return NextResponse.redirect(new URL('/login', req.nextUrl))
   }
 
-  const verify = await recoverUserInformation(token);
+  const verify = await recoverUserInformation(token)
   if (!verify) {
     return NextResponse.redirect(new URL('/login', req.nextUrl))
   }

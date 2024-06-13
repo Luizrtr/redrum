@@ -1,6 +1,6 @@
-"use client";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
+"use client"
+import { useContext, useEffect, useState } from "react"
+import axios from "axios"
 import { format } from "date-fns"
 
 import {
@@ -20,40 +20,40 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { AuthContext } from "@/Contexts/AuthContext";
-import Template from "@/components/Template";
-import { DataTable } from "./data-table";
-import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { AuthContext } from "@/Contexts/AuthContext"
+import Template from "@/components/Template"
+import { DataTable } from "./data-table"
+import { ColumnDef } from "@tanstack/react-table"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { MoreHorizontal } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 type ISales = {
-  _id: string;
-  createdAt: string;
-  description_client: string;
-  email_client: string;
-  name_client: string;
+  _id: string
+  createdAt: string
+  description_client: string
+  email_client: string
+  name_client: string
   service: { 
-    amount: number;
-    createdAt: string;
-    description: string;
-    is_enabled: boolean;
-    name: string;
-    type: string;
-    _id: string;
+    amount: number
+    createdAt: string
+    description: string
+    is_enabled: boolean
+    name: string
+    type: string
+    _id: string
   }
   status: {
-    createdAt: string;
-    is_enabled: boolean;
-    name: string;
-    id: number;
+    createdAt: string
+    is_enabled: boolean
+    name: string
+    id: number
   }
 }
 
 function Page() {
-  const { token, limitCharacters } = useContext(AuthContext);
+  const { token, limitCharacters } = useContext(AuthContext)
   const [sales, setSales] = useState<ISales | any>({} as ISales)
   const router = useRouter()
   const columns: ColumnDef<ISales>[] = [
@@ -101,7 +101,7 @@ function Page() {
       accessorKey: "service.amount",
       header: () => <div className="text-right">Amount</div>,
       cell: ({ row }) => {
-        const amount = row.original.service.amount;
+        const amount = row.original.service?.amount
 
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
@@ -186,7 +186,7 @@ function Page() {
         </CardFooter>
       </Card>
     </Template>
-  );
+  )
 }
 
-export default Page;
+export default Page

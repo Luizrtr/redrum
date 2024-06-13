@@ -1,45 +1,45 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { LuAlertTriangle } from "react-icons/lu";
-import { LiaUser } from "react-icons/lia";
+"use client"
+import { useContext, useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
+import { LuAlertTriangle } from "react-icons/lu"
+import { LiaUser } from "react-icons/lia"
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AuthContext } from "@/Contexts/AuthContext";
-import { Card } from "@/components/ui/card";
-import { Span } from "@/components/Text/span";
-import { H3 } from "@/components/Text/h3";
-import { createUser } from "@/services/function";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useToast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
+import { Skeleton } from "@/components/ui/skeleton"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AuthContext } from "@/Contexts/AuthContext"
+import { Card } from "@/components/ui/card"
+import { Span } from "@/components/Text/span"
+import { H3 } from "@/components/Text/h3"
+import { createUser } from "@/services/function"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useToast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast"
 
 interface IData {
-  email?: string;
-  password?: string;
-  nameSignUp?: string;
-  emailSignUp?: string;
-  passwordSignUp?: string;
+  email?: string
+  password?: string
+  nameSignUp?: string
+  emailSignUp?: string
+  passwordSignUp?: string
 }
 
 export default function Login() {
-  const [loading, setLoading] = useState(false);
-  const [alertError, setAlertError] = useState(false);
-  const [alertSucess, setAlertSucess] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string>("");
-  const [tabs, setTabs] = useState<string>("signin");
-  const [requiredSignIn, setRequiredSignIn] = useState(true);
-  const [requiredSignUp, setRequiredSignUp] = useState(false);
-  const { register, handleSubmit, setError, reset } = useForm<IData>();
-  const { signIn, isAuthenticated } = useContext(AuthContext);
-  const router = useRouter();
-  const { toast } = useToast();
+  const [loading, setLoading] = useState(false)
+  const [alertError, setAlertError] = useState(false)
+  const [alertSucess, setAlertSucess] = useState(false)
+  const [alertMessage, setAlertMessage] = useState<string>("")
+  const [tabs, setTabs] = useState<string>("signin")
+  const [requiredSignIn, setRequiredSignIn] = useState(true)
+  const [requiredSignUp, setRequiredSignUp] = useState(false)
+  const { register, handleSubmit, setError, reset } = useForm<IData>()
+  const { signIn, isAuthenticated } = useContext(AuthContext)
+  const router = useRouter()
+  const { toast } = useToast()
 
   async function handleSignIn(data: IData) {
     setLoading(true)
@@ -47,13 +47,13 @@ export default function Login() {
       email: data.email ?? "",
       password: data.password ?? "",
     }).catch((error) => {
-      setAlertError(true);
+      setAlertError(true)
       if (error.response) {
-        return error.response.data;
+        return error.response.data
       } else if (error.request) {
-        return error.request;
+        return error.request
       } else {
-        return error.message;
+        return error.message
       }
     })
     
@@ -62,18 +62,18 @@ export default function Login() {
   }
 
   async function handleSignUp(data: IData) {
-    setLoading(true);
+    setLoading(true)
 
     if (alertError) {
-      setAlertError(false);
+      setAlertError(false)
     }
 
     if (alertSucess) {
-      setAlertSucess(false);
+      setAlertSucess(false)
     }
 
     if (!data.emailSignUp || !data.nameSignUp || !data.passwordSignUp) {
-      return;
+      return
     }
 
     await createUser({
@@ -81,20 +81,20 @@ export default function Login() {
       email: data.emailSignUp,
       password: data.passwordSignUp,
     }).then((response: any) => {
-      const { data } = response;
+      const { data } = response
 
       if (response.status === 201) {
-        setAlertSucess(true);
+        setAlertSucess(true)
       } else {
-        setAlertError(true);
+        setAlertError(true)
       }
 
-      setAlertMessage(data.message);
-      setTabs("signup");
-    });
+      setAlertMessage(data.message)
+      setTabs("signup")
+    })
 
-    reset();
-    setLoading(false);
+    reset()
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -103,21 +103,21 @@ export default function Login() {
         required: "This is required",
         minLength: "This is minLength",
       },
-    });
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   const configForm = (value: string) => {
     if (value === "active") {
-      setRequiredSignIn(true);
-      setRequiredSignUp(false);
+      setRequiredSignIn(true)
+      setRequiredSignUp(false)
     } else if (value === "inactive") {
-      setRequiredSignIn(false);
-      setRequiredSignUp(true);
+      setRequiredSignIn(false)
+      setRequiredSignUp(true)
     }
 
-    return false;
-  };
+    return false
+  }
 
   return (
     <section className="flex flex-col md:flex-row h-screen items-center">
@@ -266,5 +266,5 @@ export default function Login() {
         )}
       </div>
     </section>
-  );
+  )
 }
