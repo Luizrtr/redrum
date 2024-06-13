@@ -126,59 +126,15 @@ function Page() {
   const [services, setServices] = useState<IServices | any>({} as IServices)
   const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices)
   const [typesServices, setTypesServices] = useState<ITypes[]>()
+  const [isFirstDialogOpen, setFirstDialogOpen] = useState(false)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
   const router = useRouter()
 
-  async function onSubmit(service: z.infer<typeof FormSchema>) {
-    try {
-      setLoading(true)
-      await api.post(
-        `api/services/create`,
-        service,
-        {
-          headers: {
-            Authorization: token
-          }
-        }
-      ).then(response => {
-        if (response) {
-          const { data } = response
-          setServices(data)
-          handleResetServices()
-        }
-      })
-      setLoading(false)
-    } catch (error) {
-      console.error("Error create service: ", error)
-      setLoading(false)
-    }
-  }
-
-  async function serviceDelete(id: string) {
-    setRemoveService(false)
-    try {
-      await api.delete(
-        'api/services/delete',
-        {
-          data: { id },
-          headers: {
-            Authorization: token,
-            'Content-Type': 'application/json',
-          }
-        }
-      ).then(response => {
-        if (response) {
-          const { data } = response
-          setServices(data.services)
-        }
-      })
-    } catch (error) {
-      console.error("Error deleting service: ", error)
-    }
-  }
-
+  const handleOpenFirstDialog = () => setFirstDialogOpen(true)
+  const handleOpenSecondDialog = () => setRemoveService(true)
+  const handleCloseSecondDialog = () => setRemoveService(false)
 
   const handleResetServices = () => {
     form.setValue('name', '')
@@ -186,52 +142,6 @@ function Page() {
     form.setValue('amount', '')
     form.setValue('description', '')
   }
-
-  useEffect(() => {
-    const fetchServies = async () => {
-      try {
-        const config = {
-          headers: {
-            Authorization: token
-          }
-        }
-        const response = await axios.get('api/services/fetchAll', config)
-
-        if (response) {
-          setServices(response.data)
-        }
-
-      } catch (error) {
-        console.error('Erro ao fazer consulta à API:', error)
-      }
-    }
-
-    fetchServies()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    const fetchTypesServies = async () => {
-      try {
-        const config = {
-          headers: {
-            Authorization: token
-          }
-        }
-        const response = await api.get('api/typeServices/fetchAll', config)
-
-        if (response) {
-          setTypesServices(response.data)
-        }
-
-      } catch (error) {
-        console.error('Erro ao fazer consulta à API:', error)
-      }
-    }
-
-    fetchTypesServies()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const columns: ColumnDef<IServices>[] = [
     {
@@ -303,8 +213,7 @@ function Page() {
               <DropdownMenuItem
                 className="dark:hover:bg-red hover:bg-red"
                 onClick={() => {
-                  // serviceDelete(row.original._id)
-                  setRemoveService(true)
+                  handleOpenSecondDialog()
                   setRemoveServiceId(row.original._id)
                 }}>
                 Delete
@@ -316,6 +225,99 @@ function Page() {
     },
   ]
 
+  async function onSubmit(service: z.infer<typeof FormSchema>) {
+    try {
+      setLoading(true)
+      await api.post(
+        `api/services/create`,
+        service,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      ).then(response => {
+        if (response) {
+          const { data } = response
+          setServices(data)
+          handleResetServices()
+        }
+      })
+      setLoading(false)
+    } catch (error) {
+      console.error("Error create service: ", error)
+      setLoading(false)
+    }
+  }
+
+  async function serviceDelete(id: string) {
+    setRemoveService(false)
+    try {
+      await api.delete(
+        'api/services/delete',
+        {
+          data: { id },
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          }
+        }
+      ).then(response => {
+        if (response) {
+          const { data } = response
+          setServices(data.services)
+        }
+      })
+    } catch (error) {
+      console.error("Error deleting service: ", error)
+    }
+  }
+
+  useEffect(() => {
+    const fetchServies = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: token
+          }
+        }
+        const response = await axios.get('api/services/fetchAll', config)
+
+        if (response) {
+          setServices(response.data)
+        }
+
+      } catch (error) {
+        console.error('Erro ao fazer consulta à API:', error)
+      }
+    }
+
+    fetchServies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    const fetchTypesServies = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: token
+          }
+        }
+        const response = await api.get('api/typeServices/fetchAll', config)
+
+        if (response) {
+          setTypesServices(response.data)
+        }
+
+      } catch (error) {
+        console.error('Erro ao fazer consulta à API:', error)
+      }
+    }
+
+    fetchTypesServies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <Template slug="services" title="Services">
       <main className="grid flex-1 items-start gap-4 md:gap-8 mb-4">
@@ -329,9 +331,9 @@ function Page() {
               }}>Active</TabsTrigger>
             </TabsList>
             <div className="ml-auto flex items-center gap-2">
-              <Dialog>
+              <Dialog open={isFirstDialogOpen} onOpenChange={setFirstDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button size="sm" className="h-8 gap-1">
+                  <Button size="sm" className="h-8 gap-1" onClick={handleOpenFirstDialog}>
                     <PlusCircle className="h-3.5 w-3.5" />
                     <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                       Add Product
@@ -486,9 +488,7 @@ function Page() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-2 gap-4">
-              <Button variant="secondary" size="sm" onClick={() => {
-                setRemoveService(false)
-              }}>
+              <Button variant="secondary" size="sm" onClick={handleCloseSecondDialog}>
                 Close
               </Button>
               <Button size="sm" onClick={() => {
