@@ -56,8 +56,10 @@ export default function Login() {
         return error.message;
       }
     })
-    
-    setAlertMessage(response.message)
+
+    if (response) {
+      setAlertMessage(response.message)
+    }    
     setLoading(false)
   }
 

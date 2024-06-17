@@ -101,7 +101,7 @@ function Page() {
       accessorKey: "service.amount",
       header: () => <div className="text-right">Amount</div>,
       cell: ({ row }) => {
-        const amount = row.original.service.amount;
+        const amount = row.original.service?.amount;
 
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
