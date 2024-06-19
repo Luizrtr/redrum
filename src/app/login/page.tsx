@@ -57,7 +57,10 @@ export default function Login() {
       }
     })
     
-    setAlertMessage(response.message)
+    if (response) {
+      setAlertMessage(response.message)
+    }
+    
     setLoading(false)
   }
 
@@ -257,10 +260,10 @@ export default function Login() {
           </Tabs>
         ) : (
           <div className="flex flex-col space-y-3 h-64 w-96">
-            <Skeleton className="h-5/6 w-full rounded-xl" />
+            <Skeleton className="h-5/6 w-full rounded-xl select-none" />
             <div className="space-y-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-5/6" />
+              <Skeleton className="h-4 w-full select-none" />
+              <Skeleton className="h-4 w-5/6 select-none" />
             </div>
           </div>
         )}

@@ -68,6 +68,8 @@ import { AuthContext } from "@/Contexts/AuthContext"
 import { api } from "@/services/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
+import { useToast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast"
 
 
 type IServices = {
@@ -131,7 +133,7 @@ function Page() {
     resolver: zodResolver(FormSchema),
   })
   const router = useRouter()
-
+  const { toast } = useToast()
   const handleOpenFirstDialog = () => setFirstDialogOpen(true)
   const handleOpenSecondDialog = () => setRemoveService(true)
   const handleCloseSecondDialog = () => setRemoveService(false)
@@ -320,6 +322,20 @@ function Page() {
   }, [])
   return (
     <Template slug="services" title="Services">
+      <Button
+      variant="outline"
+      onClick={() => {
+        toast({
+          title: "Scheduled: Catch up ",
+          description: "Friday, February 10, 2023 at 5:57 PM",
+          action: (
+            <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+          ),
+        })
+      }}
+    >
+      Add to calendar
+    </Button>
       <main className="grid flex-1 items-start gap-4 md:gap-8 mb-4">
         <Tabs defaultValue="all">
           <div className="flex items-center">
