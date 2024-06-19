@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   ColumnDef,
@@ -8,7 +8,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from "@tanstack/react-table"
 
 import {
   Table,
@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table"
 
 import {
   Pagination,
@@ -29,13 +29,13 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import { useState } from "react";
+import { Button } from "@/components/ui/button"
+import { MoreHorizontal } from "lucide-react"
+import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
 }
 
 export function DataTable<TData, TValue>({
@@ -53,7 +53,7 @@ export function DataTable<TData, TValue>({
     state: {
       sorting,
     },
-  });
+  })
 
   return (
     <>
@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
                           header.getContext()
                         )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -111,8 +111,8 @@ export function DataTable<TData, TValue>({
               <PaginationItem key={index}>
                 <PaginationLink
                   onClick={(e) => {
-                    e.preventDefault();
-                    table.setPageIndex(index);
+                    e.preventDefault()
+                    table.setPageIndex(index)
                   }}
                   // isCurrent={table.getState().pagination.pageIndex === index}
                 >
@@ -127,5 +127,5 @@ export function DataTable<TData, TValue>({
         </Pagination>
       </div>
     </>
-  );
+  )
 }

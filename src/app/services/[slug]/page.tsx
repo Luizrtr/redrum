@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast"
 import Template from "@/components/Template"
 import { H3 } from "@/components/Text/h3"
 import { Span } from "@/components/Text/span"
@@ -41,14 +41,14 @@ type ITypes = {
 }
 
 type IServices = {
-  _id: string;
-  name: string;
-  type: string;
-  description: string;
-  amount: number;
-  is_enabled: boolean;
-  createdAt: string;
-};
+  _id: string
+  name: string
+  type: string
+  description: string
+  amount: number
+  is_enabled: boolean
+  createdAt: string
+}
 
 const FormSchema = z.object({
   name: z.string().optional(),
@@ -62,7 +62,7 @@ function Page({ params }: { params: { slug: string } }) {
   const router = useRouter()
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
-  const [services, setServices] = useState<IServices>();
+  const [services, setServices] = useState<IServices>()
   const { token } = useContext(AuthContext)
   const [typesServices, setTypesServices] = useState<ITypes[]>()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -110,7 +110,7 @@ function Page({ params }: { params: { slug: string } }) {
         toast({
           title: "Service",
           description: "Service updated successfully!",
-        });        
+        })        
       } catch (error) {
         console.error('Erro ao atualizar o serviço:', error)
       }

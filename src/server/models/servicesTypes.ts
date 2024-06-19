@@ -1,4 +1,4 @@
-import mongoose, { Schema, models } from "mongoose";
+import mongoose, { Schema, models } from "mongoose"
 
 const servicesTypesSchema = new Schema(
   {
@@ -12,8 +12,8 @@ const servicesTypesSchema = new Schema(
     },
   },
   { timestamps: true }
-);
+)
 
 const ServicesTypes =
-  models.ServicesTypes || mongoose.model("ServicesTypes", servicesTypesSchema);
-export default ServicesTypes;
+  models.ServicesTypes || mongoose.model("ServicesTypes", servicesTypesSchema)
+export default ServicesTypes

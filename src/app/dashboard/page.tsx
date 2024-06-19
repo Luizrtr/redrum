@@ -1,5 +1,5 @@
-"use client";
-import { MdOutlineAttachMoney } from "react-icons/md";
+"use client"
+import { MdOutlineAttachMoney } from "react-icons/md"
 import {
   BarChart,
   Bar,
@@ -7,14 +7,14 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
+} from "recharts"
 
-import Template from "@/components/Template";
-import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Span } from "@/components/Text/span";
-import { useTheme } from "next-themes";
-import { AuthContext } from "@/Contexts/AuthContext";
+import Template from "@/components/Template"
+import { Card } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Span } from "@/components/Text/span"
+import { useTheme } from "next-themes"
+import { AuthContext } from "@/Contexts/AuthContext"
 
 const data = [
   {
@@ -77,13 +77,13 @@ const data = [
     uv: 1200,
     amt: 2100,
   },
-];
+]
 
 function Page() {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   let CompanyBox = (props: any) => {
-    let { x, y, width, height } = props;
+    let { x, y, width, height } = props
 
     return (
       <svg>
@@ -112,10 +112,10 @@ function Page() {
           fill="url(#CompanyBox)"
         />
       </svg>
-    );
-  };
+    )
+  }
 
-  const toPercent = (decimal: number, fixed = 0) => `$${decimal}`;
+  const toPercent = (decimal: number, fixed = 0) => `$${decimal}`
 
   return (
     <Template slug="dashboard" title="Dashboard">
@@ -207,7 +207,7 @@ function Page() {
         </Card>
       </div>
     </Template>
-  );
+  )
 }
 
-export default Page;
+export default Page

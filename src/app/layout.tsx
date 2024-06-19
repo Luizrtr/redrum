@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme/providers";
-import { GeistSans } from "geist/font/sans";
-import { AuthProvider } from "@/Contexts/AuthContext";
-import { Toaster } from "@/components/ui/toaster";
+import "./globals.css"
+import { ThemeProvider } from "@/components/theme/providers"
+import { GeistSans } from "geist/font/sans"
+import { AuthProvider } from "@/Contexts/AuthContext"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "Redrum",
   description: "App Redrum",
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={GeistSans.className}>
@@ -33,5 +33,5 @@ export default function RootLayout({
         </AuthProvider>
       </body>
     </html>
-  );
+  )
 }

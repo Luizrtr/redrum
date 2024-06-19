@@ -14,7 +14,7 @@ const Card = React.forwardRef<
     )}
     {...props}
   />
-));
+))
 Card.displayName = "Card"
 
 const CardHeader = React.forwardRef<
@@ -56,7 +56,7 @@ const CardDescription = React.forwardRef<
     )}
     {...props}
   />
-));
+))
 CardDescription.displayName = "CardDescription"
 
 const CardContent = React.forwardRef<

@@ -1,12 +1,12 @@
-import { jwtDecrypt, EncryptJWT, base64url } from 'jose';
+import { jwtDecrypt, EncryptJWT, base64url } from 'jose'
 
 type User = {
-  name: string;
-  email: string;
-  avatar: string;
-};
+  name: string
+  email: string
+  avatar: string
+}
 
-const key = base64url.decode('fROKWHC2QQQAN5y8kmkUFUxuOtsIrMKHhzGCZU0TZfw');
+const key = base64url.decode('fROKWHC2QQQAN5y8kmkUFUxuOtsIrMKHhzGCZU0TZfw')
 
 export const createToken = async (userData: User) => {
   try {
@@ -16,28 +16,28 @@ export const createToken = async (userData: User) => {
     .setIssuer('urn:example:issuer')
     .setAudience('urn:example:audience')
     .setExpirationTime('2h')
-    .encrypt(key);
+    .encrypt(key)
 
-    return token;
+    return token
   } catch (error) {  
-    console.error("Erro ao codificar o token JWT:", error);
-    return null;
+    console.error("Erro ao codificar o token JWT:", error)
+    return null
   }
-};
+}
 
 export async function recoverUserInformation(token: string) {
   try {
-    const { payload  }: any = await jwtDecrypt(token, key);
+    const { payload  }: any = await jwtDecrypt(token, key)
     
     const user: User = {
       name: payload.name,
       email: payload.email,
       avatar: payload.avatar
-    };
+    }
 
-    return user;
+    return user
   } catch (error: any) {
-    console.error('Token inválido:', error.message);
-    return null;
+    console.error('Token inválido:', error.message)
+    return null
   }
 }

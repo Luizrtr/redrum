@@ -1,4 +1,4 @@
-import mongoose, { Schema, models } from "mongoose";
+import mongoose, { Schema, models } from "mongoose"
 
 const salesSchema = new Schema(
   {
@@ -26,7 +26,7 @@ const salesSchema = new Schema(
     },
   },
   { timestamps: true }
-);
+)
 
-const Sales = models.Sales || mongoose.model("Sales", salesSchema);
-export default Sales;
+const Sales = models.Sales || mongoose.model("Sales", salesSchema)
+export default Sales
