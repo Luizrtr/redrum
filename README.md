@@ -1,4 +1,4 @@
-# Redrum APP 🎲
+ # Redrum APP 🎲
 > This repository is dedicated to service management with real-time dashboard functionality.
 
 ## Getting Started 🧑🏾‍💻
@@ -31,3 +31,33 @@ Contributions are highly appreciated! Please adhere to the guidelines outlined i
 
 ## License
 This project is licensed under the MIT License.
+
+## docker-composer.yml
+```
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:7.0.12
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 89551
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:89551@mongo:27017/
+      ME_CONFIG_BASICAUTH: true
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 89551
+      ME_CONFIG_BASICAUTH_USERNAME: luiz
+      ME_CONFIG_BASICAUTH_PASSWORD: 89551
+    ports:
+      - "8001:8081"
+```
