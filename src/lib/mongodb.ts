@@ -1,10 +1,14 @@
-import mongoose from "mongoose"
+import mongoose, { ConnectOptions } from "mongoose";
 
 export const connectMongoDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB ?? "")
-    console.log("Connected to MongoDB")
+    const uri = process.env.MONGODB ?? "";
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    } as ConnectOptions);
+    console.log("Connected to MongoDB");
   } catch (error) {
-    console.log("Error connecting to MongoDB: ", error)
+    console.error("Error connecting to MongoDB: ", error);
   }
-}
+};
