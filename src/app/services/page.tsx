@@ -159,9 +159,9 @@ function Page() {
       header: "Type",
       cell: ({ row }) => {
         return (
-            <Badge className="text-xs" variant="secondary">
-              {row.original.type?.name ?? 'NULL'}
-            </Badge>
+          <Badge className="text-xs" variant="secondary">
+            {row.original.type?.name ?? 'NULL'}
+          </Badge>
 
         )
       }
@@ -269,6 +269,10 @@ function Page() {
         if (response) {
           const { data } = response
           setServices(data.services)
+          toast({
+            title: "Service",
+            description: "Service removed successfully!",
+          })
         }
       })
     } catch (error) {
@@ -487,7 +491,7 @@ function Page() {
             <DialogHeader>
               <DialogTitle>Delete service</DialogTitle>
               <DialogDescription>
-              Remove your service here.
+                Remove your service here.
               </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-2 gap-4">
@@ -499,7 +503,7 @@ function Page() {
               }}>
                 Remove
               </Button>
-            </div>            
+            </div>
           </DialogContent>
         </Dialog>
       </main>

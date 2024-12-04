@@ -110,7 +110,8 @@ function Page({ params }: { params: { slug: string } }) {
         toast({
           title: "Service",
           description: "Service updated successfully!",
-        })        
+        })
+        router.push('/services')        
       } catch (error) {
         console.error('Erro ao atualizar o serviço:', error)
       }
