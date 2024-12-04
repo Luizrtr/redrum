@@ -40,6 +40,8 @@ export default function Login() {
   const { signIn, isAuthenticated } = useContext(AuthContext)
   const router = useRouter()
   const { toast } = useToast()
+  const [imageSeed, setImageSeed] = useState(Date.now());
+
 
   async function handleSignIn(data: IData) {
     setLoading(true)
@@ -101,6 +103,10 @@ export default function Login() {
     setLoading(false)
   }
 
+  const refreshImage = () => {
+    setImageSeed(Date.now());
+  };
+
   useEffect(() => {
     setError("email", {
       types: {
@@ -127,7 +133,7 @@ export default function Login() {
     <section className="flex flex-col md:flex-row h-screen items-center">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
         <img
-          src="https://source.unsplash.com/random"
+          src={`https://picsum.photos/1920/1080?random=${imageSeed}`}
           alt="img "
           className="w-full h-full object-cover"
         />
