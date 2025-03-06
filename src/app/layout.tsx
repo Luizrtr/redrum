@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={GeistSans.className}>
       <head />
       <body>
-            {children}
+        {children}
       </body>
     </html>
   )

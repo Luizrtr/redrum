@@ -31,7 +31,7 @@ type AuthContextType = {
 
 export const Theme = createContext({} as AuthContextType)
 
-export function AuthProvider({ children }: any) {
+export function ThemeProvider({ children }: any) {
   const cookies = parseCookies()
   const token = cookies["token_redrum"]
   const router = useRouter()
@@ -39,11 +39,11 @@ export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<User | null>(() => {
     if (token) {
       recoverUserInformation(token)
-        .then(userFromToken => setUser(userFromToken)) 
+        .then(userFromToken => setUser(userFromToken))
         .catch(error => console.error('Error retrieving user information:', error))
     }
     return null
-  })  
+  })
   const isAuthenticated = !!user
 
   useEffect(() => {
@@ -56,20 +56,21 @@ export function AuthProvider({ children }: any) {
   }, [token])
 
   async function signIn({ email, password }: SignInData) {
-    await api.post("api/login", { email, password }).then(async (response) => {
-      const { data } = response
-      setCookie(undefined, "token_redrum", data.token, {
-        maxAge: 60 * 60 * 1, // 1 h
+    await api.post(
+      "api/login", { email, password }).then(async (response) => {
+        const { data } = response
+        setCookie(undefined, "token_redrum", data.token, {
+          maxAge: 60 * 60 * 1, // 1 h
+        })
+        api.defaults.headers["Authorization"] = `Bearer ${data.token}`
+        setUser({ name: data.name, email: data.email, avatar: data.avatar })
+        await router.push("/dashboard")
+        toast({
+          title: "Logged in user.",
+          description: "You have successfully logged in!",
+        })
+        return response
       })
-      api.defaults.headers["Authorization"] = `Bearer ${data.token}`
-      setUser({ name: data.name, email: data.email, avatar: data.avatar })
-      await router.push("/dashboard")
-      toast({
-        title: "Logged in user.",
-        description: "You have successfully logged in!",
-      })
-      return response
-    })
   }
 
   async function logout() {
