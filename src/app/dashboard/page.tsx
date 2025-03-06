@@ -14,7 +14,7 @@ import { Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Span } from "@/components/Text/span"
 import { useTheme } from "next-themes"
-import { AuthContext } from "@/Contexts/AuthContext"
+import { AuthContext } from "@/Contexts/Theme"
 
 const data = [
   {

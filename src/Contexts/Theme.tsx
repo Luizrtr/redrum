@@ -29,7 +29,7 @@ type AuthContextType = {
   limitCharacters: (text: string, maxLength: number) => string
 }
 
-export const AuthContext = createContext({} as AuthContextType)
+export const Theme = createContext({} as AuthContextType)
 
 export function AuthProvider({ children }: any) {
   const cookies = parseCookies()
@@ -97,9 +97,9 @@ export function AuthProvider({ children }: any) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logout, token, limitCharacters }}>
+    <Theme.Provider value={{ user, isAuthenticated, signIn, logout, token, limitCharacters }}>
       {children}
-    </AuthContext.Provider>
+    </Theme.Provider>
   )
 }
 

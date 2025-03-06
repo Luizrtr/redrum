@@ -1,19 +1,25 @@
 "use client"
-import { useContext, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { AuthContext } from "@/Contexts/AuthContext"
 
-// Use a classe da Shadcn aqui
+import { SessionProvider } from "next-auth/react"
+import { Session } from "next-auth"
+import { ThemeProvider } from "@/components/theme/providers"
+// import { AuthProvider } from "@/Contexts/AuthContext"
+import { Toaster } from "@/components/ui/toaster"
 
-export default function Page() {
-  const router = useRouter()
-  const { isAuthenticated } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login")
-    } 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  return <main></main>
+export default function Page({ session }: { session: Session }) {
+  return (
+    <SessionProvider session={session}>
+      {/* <AuthProvider> */}
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <main>Hello</main>
+        <Toaster />
+      </ThemeProvider>
+      {/* </AuthProvider> */}
+    </SessionProvider>
+  )
 }

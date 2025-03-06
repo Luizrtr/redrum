@@ -1,7 +1,7 @@
 "use client"
 import { useContext, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { AuthContext } from "@/Contexts/AuthContext"
+import { AuthContext } from "@/Contexts/Theme"
 
 const RequireAuthentication = (WrappedComponent: React.ComponentType) => {
   const AuthComponent = (props: any) => {

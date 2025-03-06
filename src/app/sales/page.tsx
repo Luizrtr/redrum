@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { AuthContext } from "@/Contexts/AuthContext"
+import { AuthContext } from "@/Contexts/Theme"
 import Template from "@/components/Template"
 import { DataTable } from "./data-table"
 import { ColumnDef } from "@tanstack/react-table"

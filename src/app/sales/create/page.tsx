@@ -4,7 +4,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { MdKeyboardArrowLeft  } from "react-icons/md"
 
-import { AuthContext } from "@/Contexts/AuthContext"
+import { AuthContext } from "@/Contexts/Theme"
 import Template from "@/components/Template"
 import { Card } from "@/components/ui/card"
 import { H3 } from "@/components/Text/h3"

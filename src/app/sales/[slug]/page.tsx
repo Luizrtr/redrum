@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { AuthContext } from "@/Contexts/AuthContext"
+import { AuthContext } from "@/Contexts/Theme"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { api } from "@/services/api"

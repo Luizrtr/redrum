@@ -35,7 +35,7 @@ import { Label } from "@/components/ui/label"
 import { H2 } from "@/components/Text/h2"
 import { Button } from "../ui/button"
 import { Span } from "../Text/span"
-import { AuthContext } from "@/Contexts/AuthContext"
+import { AuthContext } from "@/Contexts/Theme"
 import {
   Home,
   LineChart,
