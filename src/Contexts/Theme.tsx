@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { GetServerSideProps } from "next"
 
 import { api } from "@/services/api"
-import { recoverUserInformation } from "@/lib/auth"
+// import { recoverUserInformation } from "@/lib/auth"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 
@@ -21,8 +21,6 @@ type SignInData = {
 }
 
 type AuthContextType = {
-  isAuthenticated: boolean
-  user: User | null
   signIn: (data: SignInData) => Promise<any>
   logout: () => void
   token: string | null
@@ -36,51 +34,13 @@ export function ThemeProvider({ children }: any) {
   const token = cookies["token_redrum"]
   const router = useRouter()
   const { toast } = useToast()
-  const [user, setUser] = useState<User | null>(() => {
-    if (token) {
-      recoverUserInformation(token)
-        .then(userFromToken => setUser(userFromToken))
-        .catch(error => console.error('Error retrieving user information:', error))
-    }
-    return null
-  })
-  const isAuthenticated = !!user
-
-  useEffect(() => {
-    async function fetchUser() {
-      const userFromToken = await recoverUserInformation(token)
-      setUser(userFromToken)
-    }
-
-    fetchUser()
-  }, [token])
 
   async function signIn({ email, password }: SignInData) {
-    await api.post(
-      "api/login", { email, password }).then(async (response) => {
-        const { data } = response
-        setCookie(undefined, "token_redrum", data.token, {
-          maxAge: 60 * 60 * 1, // 1 h
-        })
-        api.defaults.headers["Authorization"] = `Bearer ${data.token}`
-        setUser({ name: data.name, email: data.email, avatar: data.avatar })
-        await router.push("/dashboard")
-        toast({
-          title: "Logged in user.",
-          description: "You have successfully logged in!",
-        })
-        return response
-      })
+    return null
   }
 
   async function logout() {
-    await destroyCookie(null, "token_redrum")
-    setUser(null)
-    router.push("/login")
-    toast({
-      title: "Logout account",
-      description: "You have successfully logged out!",
-    })
+    return null
   }
 
   /**
@@ -98,7 +58,7 @@ export function ThemeProvider({ children }: any) {
   }
 
   return (
-    <Theme.Provider value={{ user, isAuthenticated, signIn, logout, token, limitCharacters }}>
+    <Theme.Provider value={{ signIn, logout, token, limitCharacters }}>
       {children}
     </Theme.Provider>
   )

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AuthContext } from "@/Contexts/Theme"
+import { ThemeProvider } from "@/Contexts/Theme"
 import { Card } from "@/components/ui/card"
 import { Span } from "@/components/Text/span"
 import { H3 } from "@/components/Text/h3"
@@ -37,7 +37,6 @@ export default function Login() {
   const [requiredSignIn, setRequiredSignIn] = useState(true)
   const [requiredSignUp, setRequiredSignUp] = useState(false)
   const { register, handleSubmit, setError, reset } = useForm<IData>()
-  const { signIn, isAuthenticated } = useContext(AuthContext)
   const router = useRouter()
   const { toast } = useToast()
   const [imageSeed, setImageSeed] = useState(Date.now());
@@ -45,26 +44,6 @@ export default function Login() {
 
   async function handleSignIn(data: IData) {
     setLoading(true)
-    const response = await signIn({
-      email: data.email ?? "",
-      password: data.password ?? "",
-    }).catch((error) => {
-      setAlertError(true)
-      if (error.response) {
-        return error.response.data
-      } else if (error.request) {
-        return error.request
-      } else {
-        return error.message
-      }
-    })
-
-    
-    if (response) {
-      setAlertMessage(response.message)
-    }
-        
-    setLoading(false)
   }
 
   async function handleSignUp(data: IData) {
