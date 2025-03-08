@@ -34,7 +34,7 @@
     "@tanstack/react-table": "^8.15.3",
     "@types/next-auth": "^3.15.0",
     "axios": "^1.6.8",
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
@@ -60,10 +60,11 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",
     "vaul": "^0.9.0",
-    "zod": "^3.23.5"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@sentry/wizard": "^3.21.0",
+    "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
     "@types/jsonwebtoken": "^9.0.6",
