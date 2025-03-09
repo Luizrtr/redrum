@@ -15,10 +15,10 @@ import { ThemeProvider } from "@/Contexts/Theme"
 import { Card } from "@/components/ui/card"
 import { Span } from "@/components/Text/span"
 import { H3 } from "@/components/Text/h3"
-import { createUser } from "@/services/function"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
+import { login, register as registerUser } from "@/server/actions/user.actions"
 
 interface IData {
   email?: string
@@ -44,6 +44,20 @@ export default function Login() {
 
   async function handleSignIn(data: IData) {
     setLoading(true)
+
+    const response = await login({
+      email: data.email ?? "",
+      password: data.password ?? ""
+    })
+
+    if (response.success) {
+      router.push("/")
+    } else {
+      setAlertError(true)
+      setAlertMessage(response.message ?? "")
+    }
+
+    setLoading(false)
   }
 
   async function handleSignUp(data: IData) {
@@ -61,23 +75,20 @@ export default function Login() {
       return
     }
 
-    await createUser({
-      name: data.nameSignUp,
-      email: data.emailSignUp,
-      password: data.passwordSignUp,
-    }).then((response: any) => {
-      const { data } = response
-
-      if (response.status === 201) {
-        setAlertSucess(true)
-      } else {
-        setAlertError(true)
-      }
-      
-      setAlertMessage(data.message)
-      setTabs("signup")
+    const response = await registerUser({
+      name: data.nameSignUp ?? "",
+      email: data.emailSignUp ?? "",
+      password: data.passwordSignUp ?? ""
     })
 
+    if (response.sucess) {
+      setAlertSucess(true)
+    } else {
+      setAlertError(true)
+    }
+
+    setAlertMessage(response.message)
+    setTabs("signup")
     reset()
     setLoading(false)
   }
@@ -127,7 +138,7 @@ export default function Login() {
             <TabsList>
               <TabsTrigger
                 value="signin"
-                // ref={(e) => configForm(e?.dataset.state ?? "")}
+              // ref={(e) => configForm(e?.dataset.state ?? "")}
               >
                 Sign-In
               </TabsTrigger>
