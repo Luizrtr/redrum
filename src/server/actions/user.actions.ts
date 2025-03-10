@@ -1,6 +1,6 @@
 "use server"
 
-import { signIn } from "@/lib/auth";
+import { signIn } from "next-auth/react";
 import { signInSchema, signUpSchema } from '@/lib/zod';
 import { PrismaClient } from '@prisma/client';
 import bcryptjs from "bcryptjs"
@@ -58,7 +58,7 @@ export async function login({
     const response = await signIn("credentials", {
       email,
       password,
-      redirect: "/dashboard",
+      redirect: false,
     });
 
     if (response?.error) {

@@ -1,4 +1,4 @@
-import NextAuth, { User } from "next-auth"
+import NextAuth, { NextAuthOptions, User } from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import GitHubProvider from "next-auth/providers/github"
@@ -12,7 +12,7 @@ import { prisma as db } from "../../prisma/prisma"
 const prisma = new PrismaClient()
 const adapter = PrismaAdapter(db)
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const authConfig: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
@@ -25,6 +25,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
+        console.log("credentials: ", credentials)
           const { email, password } = await signInSchema.parseAsync(credentials)
           const response = await getUser(email, password)
 
@@ -71,4 +72,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/login",
   }
-})
+}
