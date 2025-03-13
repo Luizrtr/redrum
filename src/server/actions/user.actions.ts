@@ -1,11 +1,11 @@
 "use server"
 
-import { signIn } from "next-auth/react";
-import { signInSchema, signUpSchema } from '@/lib/zod';
-import { PrismaClient } from '@prisma/client';
+import { signIn } from "next-auth/react"
+import { signInSchema, signUpSchema } from '@/lib/zod'
+import { PrismaClient } from '@prisma/client'
 import bcryptjs from "bcryptjs"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export async function getUser(email: string, password: string) {
   try {
@@ -49,34 +49,34 @@ export async function login({
   email,
   password,
 }: {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }) {
   try {
-    signInSchema.parse({ email, password });
+    signInSchema.parse({ email, password })
 
     const response = await signIn("credentials", {
       email,
       password,
       redirect: false,
-    });
+    })
 
     if (response?.error) {
       return {
         success: false,
         message: response.error,
-      };
+      }
     }
 
     return {
       success: true,
       data: response,
-    };
+    }
   } catch (error: any) {
     return {
       success: false,
       message: error.message || "Email or password is incorrect.",
-    };
+    }
   }
 }
 

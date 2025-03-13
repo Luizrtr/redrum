@@ -1,14 +1,11 @@
 "use client"
-
-import { SessionProvider } from "next-auth/react"
-import { Session } from "next-auth"
 import { ThemeProvider } from "@/components/theme/providers"
 import { ThemeProvider as Theme } from "@/Contexts/Theme"
 import { Toaster } from "@/components/ui/toaster"
-import { redirect } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { signIn } from "next-auth/react"
 
-export default function Page({ session }: { session: Session }) {
-  if (!session) redirect("/login")
+export default async function Page() {
   return (
     <Theme>
       <ThemeProvider
@@ -17,10 +14,12 @@ export default function Page({ session }: { session: Session }) {
         enableSystem
         disableTransitionOnChange
       >
-        <main></main>
+        <main>
+          <Button onClick={() => signIn("github", { callbackurl: "/dashboard" })
+          }>SignIn Github</Button>
+        </main>
         <Toaster />
       </ThemeProvider>
     </Theme>
-    // </SessionProvider>
   )
 }

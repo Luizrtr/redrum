@@ -39,7 +39,7 @@ export default function Login() {
   const { register, handleSubmit, setError, reset } = useForm<IData>()
   const router = useRouter()
   const { toast } = useToast()
-  const [imageSeed, setImageSeed] = useState(Date.now());
+  const [imageSeed, setImageSeed] = useState(Date.now())
 
 
   async function handleSignIn(data: IData) {
@@ -94,8 +94,8 @@ export default function Login() {
   }
 
   const refreshImage = () => {
-    setImageSeed(Date.now());
-  };
+    setImageSeed(Date.now())
+  }
 
   useEffect(() => {
     setError("email", {

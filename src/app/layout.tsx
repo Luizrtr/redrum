@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
-
 import "./globals.css"
 import { GeistSans } from "geist/font/sans"
-import { NextAuthProvider } from "./providers";
 
 export const metadata: Metadata = {
   title: "Redrum",
@@ -11,17 +9,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning className={GeistSans.className}>
-      <head />
-      <body>
-        <NextAuthProvider>
-          {children}
-        </NextAuthProvider>
-      </body>
+    <html lang="en">
+      <body className={GeistSans.className}>{children}</body>
     </html>
   )
 }
