@@ -6,7 +6,9 @@ import { Span } from "@/components/Text/span";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-  
+import Github from "@/components/Github"
+import Twitter from "@/components/Twitter"
+
 const SignUp: NextPage = () => {
   return (
     <Card>
@@ -18,6 +20,20 @@ const SignUp: NextPage = () => {
       </div>
       <form>
         <div className="p-6 pt-0 space-y-2">
+          <div className="grid grid-cols-2 gap-6">
+            <Github />
+            <Twitter />
+          </div>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg- white dark:bg-black px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
           <div className="space-y-1">
             <Label>Name</Label>
             <Input
