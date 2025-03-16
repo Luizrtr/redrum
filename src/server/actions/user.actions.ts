@@ -55,7 +55,7 @@ export async function login({
   try {
     signInSchema.parse({ email, password })
 
-    const response = await signIn("credentials", {
+    const response = await signIn("Credentials", {
       email,
       password,
       redirect: false,

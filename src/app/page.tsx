@@ -1,11 +1,15 @@
 "use client"
+import { getServerSession } from "next-auth";
 import { ThemeProvider } from "@/components/theme/providers"
 import { ThemeProvider as Theme } from "@/Contexts/Theme"
 import { Toaster } from "@/components/ui/toaster"
 import { Button } from "@/components/ui/button"
-import { signIn } from "next-auth/react"
+import { redirect } from "next/navigation";
 
 export default async function Page() {
+  const session = await getServerSession()
+
+  if (!session) redirect("/login")
   return (
     <Theme>
       <ThemeProvider
@@ -14,10 +18,7 @@ export default async function Page() {
         enableSystem
         disableTransitionOnChange
       >
-        <main>
-          <Button onClick={() => signIn("github", { callbackurl: "/dashboard" })
-          }>SignIn Github</Button>
-        </main>
+        <main />
         <Toaster />
       </ThemeProvider>
     </Theme>
