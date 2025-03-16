@@ -20,21 +20,24 @@ type SignInData = {
   password: string
 }
 
-type AuthContextType = {
+type ThemeContextType = {
   signIn: (data: SignInData) => Promise<any>
   logout: () => void
   token: string | null
   limitCharacters: (text: string, maxLength: number) => string
+  tabs: string
+  setTabs: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const Theme = createContext({} as AuthContextType)
+export const Theme = createContext({} as ThemeContextType)
 
 export function ThemeProvider({ children }: any) {
   const cookies = parseCookies()
   const token = cookies["token_redrum"]
   const router = useRouter()
   const { toast } = useToast()
-
+  const [tabs, setTabs] = useState<string>("signin")
+  console.log("Context: ", tabs)
   async function signIn({ email, password }: SignInData) {
     return null
   }
@@ -58,7 +61,7 @@ export function ThemeProvider({ children }: any) {
   }
 
   return (
-    <Theme.Provider value={{ signIn, logout, token, limitCharacters }}>
+    <Theme.Provider value={{ signIn, logout, token, limitCharacters, tabs, setTabs }}>
       {children}
     </Theme.Provider>
   )
