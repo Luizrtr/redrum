@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { AuthContext } from "@/Contexts/Theme"
+import { Theme } from "@/Contexts/Theme"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { api } from "@/services/api"
@@ -75,7 +75,7 @@ function Page({ params }: { params: { slug: string } }) {
   const [loading, setLoading] = useState(false)
   const [sales, setSales] = useState<ISales>()
   const [services, setServices] = useState<IServices[]>()
-  const { token } = useContext(AuthContext)
+  const { token } = useContext(Theme)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
   })
@@ -235,8 +235,8 @@ function Page({ params }: { params: { slug: string } }) {
                           <FormLabel>E-mail</FormLabel>
                           <FormControl>
                             <Input
-                              type="email" {...field} 
-                              defaultValue={sales?.email_client} 
+                              type="email" {...field}
+                              defaultValue={sales?.email_client}
                             />
                           </FormControl>
                           <FormMessage />
@@ -250,10 +250,10 @@ function Page({ params }: { params: { slug: string } }) {
                         <FormItem className="grid">
                           <FormLabel>Description</FormLabel>
                           <FormControl>
-                            <Textarea 
-                              {...field} 
+                            <Textarea
+                              {...field}
                               defaultValue={sales?.description_client}
-                              />
+                            />
                           </FormControl>
                           {/* <FormMessage /> */}
                         </FormItem>
@@ -272,8 +272,8 @@ function Page({ params }: { params: { slug: string } }) {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Services</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
+                          <Select
+                            onValueChange={field.onChange}
                             defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>

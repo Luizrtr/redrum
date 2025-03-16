@@ -64,7 +64,7 @@ import { Label } from "@/components/ui/label"
 import { DataTable } from "./data-table"
 import { Textarea } from "@/components/ui/textarea"
 import { useContext, useEffect, useState } from "react"
-import { AuthContext } from "@/Contexts/Theme"
+import { Theme } from "@/Contexts/Theme"
 import { api } from "@/services/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
@@ -124,7 +124,7 @@ function Page() {
   const [loading, setLoading] = useState(false)
   const [removeService, setRemoveService] = useState(false)
   const [removeServiceId, setRemoveServiceId] = useState<string>('')
-  const { token, limitCharacters } = useContext(AuthContext)
+  const { token, limitCharacters } = useContext(Theme)
   const [services, setServices] = useState<IServices | any>({} as IServices)
   const [activeServices, setActiveServices] = useState<IServices | any>({} as IServices)
   const [typesServices, setTypesServices] = useState<ITypes[]>()
