@@ -1,19 +1,16 @@
 "use client"
-import { useContext, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { AuthContext } from "@/Contexts/AuthContext"
 
-// Use a classe da Shadcn aqui
+import { getServerSession } from "next-auth"
+import { redirect } from "next/navigation"
 
-export default function Page() {
-  const router = useRouter()
-  const { isAuthenticated } = useContext(AuthContext)
+export default async function Page() {
+  const session = await getServerSession()
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login")
-    } 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  return <main></main>
+  if (!session) redirect("/login")
+
+  return (
+    <main>
+      {/* Conteúdo da página */}
+    </main>
+  )
 }

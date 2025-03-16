@@ -20,6 +20,9 @@ yarn dev
 pnpm dev
 # or
 bun dev
+
+
+npx prisma studio
 ```
 After launching the server, open your preferred web browser and navigate to the specified HOST to access the application.
 

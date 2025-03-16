@@ -1,9 +1,8 @@
 import type { Metadata } from "next"
-
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme/providers"
 import { GeistSans } from "geist/font/sans"
-import { AuthProvider } from "@/Contexts/AuthContext"
+import { ThemeProvider } from "@/components/theme/providers"
+import { ThemeProvider as Theme } from "@/Contexts/Theme"
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
@@ -13,14 +12,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning className={GeistSans.className}>
-      <head />
-      <body>
-        <AuthProvider>
+    <html lang="en">
+      <body className={GeistSans.className}>
+        <Theme>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -30,7 +28,7 @@ export default function RootLayout({
             {children}
             <Toaster />
           </ThemeProvider>
-        </AuthProvider>
+        </Theme>
       </body>
     </html>
   )

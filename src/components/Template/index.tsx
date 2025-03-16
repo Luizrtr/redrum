@@ -35,7 +35,7 @@ import { Label } from "@/components/ui/label"
 import { H2 } from "@/components/Text/h2"
 import { Button } from "../ui/button"
 import { Span } from "../Text/span"
-import { AuthContext } from "@/Contexts/AuthContext"
+import { Theme } from "@/Contexts/Theme"
 import {
   Home,
   LineChart,
@@ -64,7 +64,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
   const [path, setPath] = useState("")
   const [active] = useState<string>("bg-dark dark:bg-white text-white dark:text-black text-md")
   const pathname = usePathname()
-  const { user, logout } = useContext(AuthContext)
+  const { logout } = useContext(Theme)
 
   const changeTheme = () => {
     if (theme === "light") {
@@ -200,10 +200,10 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                         : "flex gap-4 p-4 rounded-lg active:dark:bg-dark-muted active:bg-white-muted"
                     }
                   >
-                    <RxDashboard size={26}  className={slug === "dashboard" ? `${active}` : ""} />
+                    <RxDashboard size={26} className={slug === "dashboard" ? `${active}` : ""} />
                     <Label className={slug === "dashboard" ? `${active}` : "text-black"}>
                       Dashboard
-                      </Label>
+                    </Label>
                   </Link>
                   <Link
                     href="/sales"
@@ -213,9 +213,9 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                         : "flex gap-4 p-4 rounded-lg active:dark:bg-dark-muted active:bg-white-muted"
                     }
                   >
-                    <ShoppingCart size={26} className={slug === "sales" ? `${active}` : ""}/>
+                    <ShoppingCart size={26} className={slug === "sales" ? `${active}` : ""} />
                     <Label className={slug === "sales" ? `${active}` : "text-black"}>Sales</Label>
-                  </Link>                  
+                  </Link>
                   <Link
                     href="/services"
                     className={
@@ -224,7 +224,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
                         : "flex gap-4 p-4 rounded-lg active:dark:bg-dark-muted active:bg-white-muted"
                     }
                   >
-                    <Package size={26} className={slug === "services" ? `${active}` : ""}/>
+                    <Package size={26} className={slug === "services" ? `${active}` : ""} />
                     <Label className={slug === "services" ? `${active}` : "text-black"}>Services</Label>
                   </Link>
                 </div>
@@ -241,7 +241,7 @@ const Template: NextPage<Iprops> = ({ children, title, slug }) => {
               <MenubarMenu>
                 <MenubarTrigger className="p-0">
                   <Avatar className="cursor-pointer">
-                    <AvatarImage src={user?.avatar ?? ""} />
+                    <AvatarImage src={""} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </MenubarTrigger>

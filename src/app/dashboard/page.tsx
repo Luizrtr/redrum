@@ -14,7 +14,6 @@ import { Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Span } from "@/components/Text/span"
 import { useTheme } from "next-themes"
-import { AuthContext } from "@/Contexts/AuthContext"
 
 const data = [
   {
@@ -106,9 +105,8 @@ function Page() {
           </linearGradient>
         </defs>
         <path
-          d={`m${x},${height + y} v-${height} c0-2.1,1.7-3.8,3.8-3.8 h${
-            width - 8
-          } c2.1,0,3.8,1.7,3.8,3.8 v${height} z`}
+          d={`m${x},${height + y} v-${height} c0-2.1,1.7-3.8,3.8-3.8 h${width - 8
+            } c2.1,0,3.8,1.7,3.8,3.8 v${height} z`}
           fill="url(#CompanyBox)"
         />
       </svg>

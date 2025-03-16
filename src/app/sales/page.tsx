@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { AuthContext } from "@/Contexts/AuthContext"
+import { Theme } from "@/Contexts/Theme"
 import Template from "@/components/Template"
 import { DataTable } from "./data-table"
 import { ColumnDef } from "@tanstack/react-table"
@@ -35,7 +35,7 @@ type ISales = {
   description_client: string
   email_client: string
   name_client: string
-  service: { 
+  service: {
     amount: number
     createdAt: string
     description: string
@@ -53,7 +53,7 @@ type ISales = {
 }
 
 function Page() {
-  const { token, limitCharacters } = useContext(AuthContext)
+  const { token, limitCharacters } = useContext(Theme)
   const [sales, setSales] = useState<ISales | any>({} as ISales)
   const router = useRouter()
   const columns: ColumnDef<ISales>[] = [
@@ -64,7 +64,7 @@ function Page() {
     {
       accessorKey: "name_client",
       header: "Name Client"
-    },    
+    },
     {
       accessorKey: "email_client",
       header: "E-mail Client"
@@ -93,7 +93,7 @@ function Page() {
       cell: ({ row }) => {
         const date = new Date(row.getValue("createdAt"))
         const formattedDate = format(date, "dd/MM/yyyy")
-  
+
         return <>{formattedDate}</>
       },
     },
@@ -107,7 +107,7 @@ function Page() {
           style: "currency",
           currency: "USD",
         }).format(amount)
-  
+
         return <div className="text-right font-medium">{formatted}</div>
       },
     },
@@ -131,7 +131,7 @@ function Page() {
               <DropdownMenuItem
                 className="dark:hover:bg-red hover:bg-red"
                 onClick={() => {
-                  
+
                 }}>
                 Cancel
               </DropdownMenuItem>
@@ -163,7 +163,7 @@ function Page() {
     fetchSales()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+
   return (
     <Template slug="sales" title="Sales">
       <Card

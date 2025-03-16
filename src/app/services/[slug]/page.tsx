@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { AuthContext } from "@/Contexts/AuthContext"
+import { Theme } from "@/Contexts/Theme"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { api } from "@/services/api"
@@ -63,7 +63,7 @@ function Page({ params }: { params: { slug: string } }) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState<IServices>()
-  const { token } = useContext(AuthContext)
+  const { token } = useContext(Theme)
   const [typesServices, setTypesServices] = useState<ITypes[]>()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
@@ -111,7 +111,7 @@ function Page({ params }: { params: { slug: string } }) {
           title: "Service",
           description: "Service updated successfully!",
         })
-        router.push('/services')        
+        router.push('/services')
       } catch (error) {
         console.error('Erro ao atualizar o serviço:', error)
       }

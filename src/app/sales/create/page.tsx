@@ -2,9 +2,9 @@
 import { useContext, useEffect, useState } from "react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MdKeyboardArrowLeft  } from "react-icons/md"
+import { MdKeyboardArrowLeft } from "react-icons/md"
 
-import { AuthContext } from "@/Contexts/AuthContext"
+import { Theme } from "@/Contexts/Theme"
 import Template from "@/components/Template"
 import { Card } from "@/components/ui/card"
 import { H3 } from "@/components/Text/h3"
@@ -69,7 +69,7 @@ const FormSchema = z.object({
 })
 
 function Page() {
-  const { token } = useContext(AuthContext)
+  const { token } = useContext(Theme)
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState<IServices[]>()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -77,7 +77,7 @@ function Page() {
   })
   const router = useRouter()
   const { toast } = useToast()
-  
+
   const handleResetServices = () => {
     form.setValue('nameCliente', '')
     form.setValue('emailCliente', '')
@@ -97,7 +97,7 @@ function Page() {
           }
         }
       ).then(response => {
-        if (response.status === 200) {   
+        if (response.status === 200) {
           handleResetServices()
           router.push('/sales')
           toast({
