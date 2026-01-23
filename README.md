@@ -43,7 +43,7 @@ services:
     image: mongo:7.0.12
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 89551
+      MONGO_INITDB_ROOT_PASSWORD: 
     ports:
       - "27017:27017"
     volumes:
@@ -55,12 +55,12 @@ services:
     depends_on:
       - mongo
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://root:89551@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:password@mongo:27017/
       ME_CONFIG_BASICAUTH: true
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: 89551
-      ME_CONFIG_BASICAUTH_USERNAME: luiz
-      ME_CONFIG_BASICAUTH_PASSWORD: 89551
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 
+      ME_CONFIG_BASICAUTH_USERNAME:
+      ME_CONFIG_BASICAUTH_PASSWORD:
     ports:
       - "8001:8081"
 ```
